@@ -101,6 +101,8 @@ import {
   maxBatchSizePrice,
   maxConcurrentPriceRequests
 } from './constants'
+import getAPIProxy from '../async/bridge'
+import { isValidAddress } from '../../../../components/brave_wallet_ui/utils/address-utils'
 
 type GetAccountTokenCurrentBalanceArg = {
   coin: BraveWallet.CoinType,
@@ -1459,13 +1461,20 @@ export function createWalletApi () {
           try {
             const { txService } = baseQuery(undefined).data
 
+            let effectiveTo = payload.to
+            if (isValidAddress(payload.to)) {
+              effectiveTo = (await getAPIProxy().braveWalletService.convertFEVMToFVMAddress(
+                payload.fromAccount.accountId.keyringId === BraveWallet.KeyringId.kFilecoin,
+                payload.to)).result || ''
+            }
+
             const filTxData: BraveWallet.FilTxData = {
               nonce: payload.nonce || '',
               gasPremium: payload.gasPremium || '',
               gasFeeCap: payload.gasFeeCap || '',
               gasLimit: payload.gasLimit || '',
               maxFee: payload.maxFee || '0',
-              to: payload.to,
+              to: effectiveTo,
               from: payload.fromAccount.address,
               value: payload.value
             }

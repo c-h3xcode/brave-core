@@ -309,6 +309,7 @@ source_set("utils") {
     "//brave/components/brave_wallet/common:mojom",
     "//brave/components/version_info",
     "//brave/third_party/bip39wally-core-native:bip39wally-core",
+    "//components/base32:base32",
     "//components/content_settings/core/common",
     "//components/prefs",
     "//crypto",

@@ -8,7 +8,7 @@ import { skipToken } from '@reduxjs/toolkit/query/react'
 import { useParams } from 'react-router'
 
 // Messages
-import { ENSOffchainLookupMessage, FailedChecksumMessage } from '../send-ui-messages'
+import { ENSOffchainLookupMessage, FEVMAddressConvertionMessage, FailedChecksumMessage } from '../send-ui-messages'
 
 // Types
 import { SendOptionTypes, AddressMessageInfo } from '../../../../constants/types'
@@ -110,6 +110,8 @@ export const Send = (props: Props) => {
     enableEnsOffchainLookup,
     showEnsOffchainWarning,
     setShowEnsOffchainWarning,
+    showFilecoinFEVMWarning,
+    fevmTranslatedAddress,
     addressError,
     addressWarning,
     sendAmount,
@@ -339,6 +341,11 @@ export const Send = (props: Props) => {
   }, [searchingForDomain, addressError])
 
   const addressMessageInformation: AddressMessageInfo | undefined = React.useMemo(() => {
+    if (showFilecoinFEVMWarning) {
+      let message = { ... FEVMAddressConvertionMessage }
+      message.placeholder = fevmTranslatedAddress
+      return message
+    }
     if (showEnsOffchainWarning) {
       return ENSOffchainLookupMessage
     }
@@ -349,7 +356,7 @@ export const Send = (props: Props) => {
       return { ...FailedChecksumMessage, type: 'warning' }
     }
     return undefined
-  }, [showEnsOffchainWarning, addressError, addressWarning])
+  }, [showFilecoinFEVMWarning, fevmTranslatedAddress, showEnsOffchainWarning, addressError, addressWarning])
 
   const showResolvedDomain = React.useMemo(() => {
     return (addressError === undefined ||

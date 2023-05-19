@@ -38,6 +38,7 @@ import {
   supportedUDExtensions
 } from '../constants/domain-extensions'
 import { getChecksumEthAddress } from '../async/lib'
+import getAPIProxy from '../async/bridge'
 
 // ToDo: Remove isSendTab prop once we fully migrate to Send Tab
 export default function useSend (isSendTab?: boolean) {
@@ -68,6 +69,8 @@ export default function useSend (isSendTab?: boolean) {
   const [addressError, setAddressError] = React.useState<string | undefined>(undefined)
   const [addressWarning, setAddressWarning] = React.useState<string | undefined>(undefined)
   const [selectedSendAsset, setSelectedSendAsset] = React.useState<BraveWallet.BlockchainToken | undefined>(undefined)
+  const [showFilecoinFEVMWarning, setShowFilecoinFEVMWarning] = React.useState<boolean>(false)
+  const [fevmTranslatedAddress, setFEVMTranslatedAddress] = React.useState<string | undefined>(undefined)
 
   const selectSendAsset = (asset: BraveWallet.BlockchainToken | undefined) => {
     if (asset?.isErc721 || asset?.isNft) {
@@ -82,6 +85,42 @@ export default function useSend (isSendTab?: boolean) {
     setShowEnsOffchainWarning(false)
     setSearchingForDomain(false)
     setSelectedSendAsset(asset)
+    setFEVMTranslatedAddress(undefined)
+    setShowFilecoinFEVMWarning(false)
+  }
+
+
+  function validateETHAddress(addressOrUrl: string, callback: (success: boolean) => void = (v) => {}) {
+    setToAddress(addressOrUrl)
+    if (!isValidAddress(addressOrUrl, 20)) {
+      setAddressWarning('')
+      setAddressError(getLocale('braveWalletInvalidRecipientAddress'))
+      callback(false)
+      return
+    }
+
+    getChecksumEthAddress(addressOrUrl).then((value: GetChecksumEthAddressReturnInfo) => {
+      const { checksumAddress } = value
+      if (checksumAddress === addressOrUrl) {
+        setAddressWarning('')
+        setAddressError('')
+        callback(true)
+        return
+      }
+
+      if ([addressOrUrl.toLowerCase(), addressOrUrl.toUpperCase()].includes(addressOrUrl)) {
+        setAddressError('')
+        setAddressWarning(getLocale('braveWalletAddressMissingChecksumInfoWarning'))
+        callback(false)
+        return
+      }
+      setAddressWarning('')
+      setAddressError(getLocale('braveWalletNotValidChecksumAddressError'))
+      callback(false)
+    }).catch(e => {
+      callback(false)
+      console.log(e)
+    })
   }
 
   const setNotRegisteredError = React.useCallback(() => {
@@ -172,29 +211,7 @@ export default function useSend (isSendTab?: boolean) {
 
     // If value starts with 0x, will check if it's a valid address
     if (valueToLowerCase.startsWith('0x')) {
-      setToAddress(addressOrUrl)
-      if (!isValidAddress(addressOrUrl, 20)) {
-        setAddressWarning('')
-        setAddressError(getLocale('braveWalletInvalidRecipientAddress'))
-        return
-      }
-
-      getChecksumEthAddress(addressOrUrl).then((value: GetChecksumEthAddressReturnInfo) => {
-        const { checksumAddress } = value
-        if (checksumAddress === addressOrUrl) {
-          setAddressWarning('')
-          setAddressError('')
-          return
-        }
-
-        if ([addressOrUrl.toLowerCase(), addressOrUrl.toUpperCase()].includes(addressOrUrl)) {
-          setAddressError('')
-          setAddressWarning(getLocale('braveWalletAddressMissingChecksumInfoWarning'))
-          return
-        }
-        setAddressWarning('')
-        setAddressError(getLocale('braveWalletNotValidChecksumAddressError'))
-      }).catch(e => console.log(e))
+      validateETHAddress(addressOrUrl)
       return
     }
 
@@ -241,13 +258,30 @@ export default function useSend (isSendTab?: boolean) {
       return
     }
 
-    setToAddress(valueToLowerCase)
-    if (!isValidFilAddress(valueToLowerCase)) {
-      setAddressWarning('')
-      setAddressError(getLocale('braveWalletInvalidRecipientAddress'))
+    // If value starts with 0x, will check if it's a valid address
+    if (valueToLowerCase.startsWith('0x')) {
+      validateETHAddress(addressOrUrl, (v) => {
+        if (!v) {
+          return
+        }
+        getAPIProxy().braveWalletService.convertFEVMToFVMAddress(
+          selectedAccount?.accountId.keyringId === BraveWallet.KeyringId.kFilecoin || false,
+          addressOrUrl).then(v => {
+            if (v) {
+              setFEVMTranslatedAddress(v.result || undefined)
+              setShowFilecoinFEVMWarning(true)
+            }
+          })
+      })
       return
+    } else {
+      setToAddress(valueToLowerCase)
+      if (!isValidFilAddress(valueToLowerCase)) {
+        setAddressWarning('')
+        setAddressError(getLocale('braveWalletInvalidRecipientAddress'))
+        return
+      }
     }
-
     // Reset error and warning state back to normal
     setAddressWarning('')
     setAddressError('')
@@ -322,6 +356,9 @@ export default function useSend (isSendTab?: boolean) {
       return
     }
 
+    setFEVMTranslatedAddress('')
+    setShowFilecoinFEVMWarning(false)
+
     if (selectedAccount.accountId.coin === BraveWallet.CoinType.ETH) {
       processEthereumAddress(addressOrUrl)
     } else if (selectedAccount.accountId.coin === BraveWallet.CoinType.FIL) {
@@ -346,6 +383,8 @@ export default function useSend (isSendTab?: boolean) {
       selectSendAsset(undefined)
       setToAddressOrUrl('')
       setSendAmount('')
+      setFEVMTranslatedAddress('')
+      setShowFilecoinFEVMWarning(false)
       return
     }
     if (reselectSendAsset) {
@@ -541,6 +580,8 @@ export default function useSend (isSendTab?: boolean) {
     addressWarning,
     selectedSendAsset,
     sendAmountValidationError,
+    showFilecoinFEVMWarning,
+    fevmTranslatedAddress,
     showEnsOffchainWarning,
     setShowEnsOffchainWarning,
     enableEnsOffchainLookup,

@@ -26,6 +26,7 @@ import { AccountListItem } from '../account-list-item/account-list-item'
 // Styled Components
 import { ButtonIcon, ArrowIcon, DropDown, SelectorButton } from './account-selector.style'
 import { BraveWallet } from '../../../../../constants/types'
+import { CoinType } from 'gen/brave/components/brave_wallet/common/brave_wallet.mojom.m'
 
 interface Props {
   asset: BraveWallet.BlockchainToken | undefined
@@ -75,14 +76,24 @@ export const AccountSelector = (props: Props) => {
       return []
     }
 
-    // TODO(apaymyshev): for bitcoin should allow sending to my account, but
-    // from different keyring (i.e. segwit -> taproot)
-    // https://github.com/brave/brave-browser/issues/29262
-    return accounts.filter(
-      (account) =>
-        account.accountId.coin === selectedNetwork.coin &&
-        account.accountId.keyringId === selectedAccountId.keyringId ||
-        (asset?.contractAddress === "" && isFVMAccount(account)))
+    if (selectedNetwork.coin !== BraveWallet.CoinType.FIL) {
+      // TODO(apaymyshev): for bitcoin should allow sending to my account, but
+      // from different keyring (i.e. segwit -> taproot)
+      // https://github.com/brave/brave-browser/issues/29262
+      return accounts.filter(
+        (account) =>
+          account.accountId.coin === selectedNetwork.coin &&
+          account.accountId.keyringId === selectedAccountId.keyringId ||
+          (asset?.contractAddress === "" && isFVMAccount(account)))
+    } else {
+      let filecoinAccounts = accounts.filter((account) =>
+        (account.accountId.coin === selectedNetwork?.coin &&
+         account.accountId.keyringId === selectedAccountId?.keyringId))
+      let fevmAccounts = accounts.filter((account) =>
+        (selectedAccountId?.coin === CoinType.FIL &&
+         account.accountId.coin === CoinType.ETH))
+      return filecoinAccounts.concat(fevmAccounts)
+    }
   }, [accounts, selectedNetwork, selectedAccountId, asset])
 
   // Hooks
@@ -109,6 +120,7 @@ export const AccountSelector = (props: Props) => {
               isSelected={
                 account.accountId.uniqueKey === selectedAccountId?.uniqueKey
               }
+              selectedAccountKeyring={selectedAccountId?.keyringId}
             />
           )}
         </DropDown>

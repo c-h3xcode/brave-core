@@ -214,6 +214,8 @@ GURL GetActiveEndpointUrl(const mojom::NetworkInfo& chain);
 
 std::vector<mojom::KeyringId> GetSupportedKeyrings();
 bool CoinSupportsDapps(mojom::CoinType coin);
+absl::optional<std::string> ConvertFEVMtoFVM(bool isMainnet,
+                                             const std::string& fevm_address);
 
 }  // namespace brave_wallet
 

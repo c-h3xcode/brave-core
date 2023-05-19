@@ -58,6 +58,7 @@ import { WalletPageActions } from '../../page/actions'
 import { LOCAL_STORAGE_KEYS } from '../../common/constants/local-storage-keys'
 import { IPFS_PROTOCOL, isIpfs, stripERC20TokenImageURL } from '../../utils/string-utils'
 import { toTxDataUnion } from '../../utils/tx-utils'
+import { isValidAddress } from '../../../../components/brave_wallet_ui/utils/address-utils'
 
 export const getERC20Allowance = (
   contractAddress: string,
@@ -209,7 +210,7 @@ export async function findHardwareAccountInfo (
   address: string
 ): Promise<BraveWallet.AccountInfo | false> {
   const { keyringService } = getAPIProxy()
-  const { accounts }= (await keyringService.getAllAccounts()).allAccounts
+  const { accounts } = (await keyringService.getAllAccounts()).allAccounts
   for (const account of accounts) {
     if (!account.hardware) {
       continue
@@ -322,7 +323,7 @@ export const getAllBuyAssets = async (): Promise<{
     async (chainId: string) =>
       await blockchainRegistry.getBuyTokens(kStripe, chainId)
   )
-  
+
   // add token logos
   const rampAssetOptions: BraveWallet.BlockchainToken[] = await mapLimit(
     rampAssets.flatMap((p) => p.tokens),
@@ -631,7 +632,7 @@ export function refreshBalances () {
                 if (
                   network.coin === BraveWallet.CoinType.FIL &&
                   account.accountId.keyringId ===
-                    getFilecoinKeyringIdFromNetwork(network)
+                  getFilecoinKeyringIdFromNetwork(network)
                 ) {
                   const balanceInfo = await jsonRpcService.getBalance(
                     account.address,
@@ -957,15 +958,21 @@ export async function sendEthTransaction (payload: SendEthTransactionParams) {
   )
 }
 
-export async function sendFilTransaction(payload: SendFilTransactionParams) {
+export async function sendFilTransaction (payload: SendFilTransactionParams) {
   const apiProxy = getAPIProxy()
+  var effectiveTo = payload.to
+  if (isValidAddress(payload.to)) {
+    effectiveTo = (await apiProxy.braveWalletService.convertFEVMToFVMAddress(
+      payload.fromAccount.accountId.keyringId === BraveWallet.KeyringId.kFilecoin,
+      payload.to)).result || ''
+  }
   const filTxData: BraveWallet.FilTxData = {
     nonce: payload.nonce || '',
     gasPremium: payload.gasPremium || '',
     gasFeeCap: payload.gasFeeCap || '',
     gasLimit: payload.gasLimit || '',
     maxFee: payload.maxFee || '0',
-    to: payload.to,
+    to: effectiveTo,
     from: payload.fromAccount.address,
     value: payload.value
   }

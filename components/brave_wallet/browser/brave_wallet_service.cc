@@ -1869,6 +1869,13 @@ void BraveWalletService::GetBalanceScannerSupportedChains(
   std::move(callback).Run(chain_ids);
 }
 
+void BraveWalletService::ConvertFEVMToFVMAddress(
+    bool isMainnet,
+    const std::string& fevm_address,
+    ConvertFEVMToFVMAddressCallback callback) {
+  std::move(callback).Run(ConvertFEVMtoFVM(isMainnet, fevm_address));
+}
+
 void BraveWalletService::GetSimpleHashSpamNFTs(
     const std::string& wallet_address,
     const std::vector<std::string>& chain_ids,

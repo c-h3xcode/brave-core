@@ -1,8 +1,8 @@
 diff --git a/build/config/compiler/BUILD.gn b/build/config/compiler/BUILD.gn
-index ae742b0b85a506f550852e611471338bde0da390..8b403545d7049c89ad22a2ede4f0c536840568b1 100644
+index 5d5b2c7ffebed544701b6e98db7c28c6b913b5f4..6a10e22510f84841c974c4a1d2ac9204804eb0fa 100644
 --- a/build/config/compiler/BUILD.gn
 +++ b/build/config/compiler/BUILD.gn
-@@ -1568,6 +1568,87 @@ config("compiler_arm") {
+@@ -1566,6 +1566,87 @@ config("compiler_arm") {
    }
  }
  
@@ -90,7 +90,7 @@ index ae742b0b85a506f550852e611471338bde0da390..8b403545d7049c89ad22a2ede4f0c536
  # runtime_library -------------------------------------------------------------
  #
  # Sets the runtime library and associated options.
-@@ -1589,6 +1670,10 @@ config("runtime_library") {
+@@ -1587,6 +1668,10 @@ config("runtime_library") {
      configs += [ "//build/config/c++:runtime_library" ]
    }
  
@@ -101,7 +101,7 @@ index ae742b0b85a506f550852e611471338bde0da390..8b403545d7049c89ad22a2ede4f0c536
    # Rust and C++ both provide intrinsics for LLVM to call for math operations. We
    # want to use the C++ intrinsics, not the ones in the Rust compiler_builtins
    # library. The Rust symbols are marked as weak, so that they can be replaced by
-@@ -1785,6 +1870,7 @@ config("default_warnings") {
+@@ -1778,6 +1863,7 @@ config("default_warnings") {
    # an error by default eventually; see
    # https://github.com/rust-lang/rust/issues/71668
    rustflags = [ "-Dunsafe_op_in_unsafe_fn" ]
@@ -109,12 +109,3 @@ index ae742b0b85a506f550852e611471338bde0da390..8b403545d7049c89ad22a2ede4f0c536
  }
  
  # prevent_unsafe_narrowing ----------------------------------------------------
-@@ -2570,7 +2656,7 @@ config("symbols") {
-       if (use_dwarf5) {
-         cflags += [ "-gdwarf-5" ]
-         rustflags += [ "-Zdwarf-version=5" ]
--      } else if (!is_apple) {
-+      } else {
-         # Recent clang versions default to DWARF5 on Linux, and Android is about
-         # to switch. TODO: Adopt that in controlled way.
-         # Apple platforms still default to 4, so the flag is not needed there.

@@ -15,7 +15,7 @@ import {
   StyledTopSitesCustomizationOptionTitle,
   StyledTopSitesCustomizationOptionDesc
 } from '../../../components/default'
-import { Toggle } from '../../../components/toggle'
+import Toggle from '@brave/leo/react/toggle'
 
 import { getLocale } from '../../../../common/locale'
 
@@ -51,7 +51,7 @@ class TopSitesSettings extends React.PureComponent<Props, {}> {
           <Toggle
             onChange={toggleShowTopSites}
             checked={showTopSites}
-            size='large'
+            size='small'
           />
         </SettingsRow>
         <StyledTopSitesCustomizationSettings>

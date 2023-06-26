@@ -10,47 +10,60 @@ import {
   SettingsRow,
   SettingsText
 } from '../../../components/default'
-import { Toggle } from '../../../components/toggle'
-import { Select } from 'brave-ui/components'
+import Toggle from '@brave/leo/react/toggle'
+import Dropdown from '@brave/leo/react/dropdown'
 
 // Utils
 import { getLocale } from '../../../../common/locale'
 
 // Types
 import { useNewTabPref } from '../../../hooks/usePref'
+import styled from 'styled-components'
 
-function ClockSettings () {
-    const [clockFormat, setClockFormat] = useNewTabPref('clockFormat')
-    const [showClock, setShowClock] = useNewTabPref('showClock')
+const StyledDropdown = styled(Dropdown)`
+  display: block;
+  width: 220px;
+`
 
-    let localeInfo = ''
+const clockFormats = {
+  '': () => {
     const dateFormat = new Intl.DateTimeFormat()
     const dateFormatOptions = dateFormat && dateFormat.resolvedOptions()
-    if (dateFormatOptions && dateFormatOptions.locale) {
-      localeInfo = ` (${dateFormatOptions.locale})`
-    }
+    const localeInfo = dateFormatOptions && dateFormatOptions.locale
+      ? ` (${dateFormatOptions.locale})`
+      : ''
+    return `${getLocale('clockFormatDefault')}${localeInfo}`
+  },
+  '12': () => getLocale('clockFormat12'),
+  '24': () => getLocale('clockFormat24')
+}
 
-    return <div>
-        <SettingsRow>
-          <SettingsText>{getLocale('showClock')}</SettingsText>
-          <Toggle
-            onChange={() => setShowClock(!showClock)}
-            checked={showClock}
-            size='large'
-          />
-        </SettingsRow>
-        <SettingsRow>
-          <SettingsText>{getLocale('clockFormat')}</SettingsText>
-          <Select
-            value={clockFormat}
-            onChange={setClockFormat}
-          >
-            <div key='clock-default' data-value=''>{getLocale('clockFormatDefault')}{localeInfo}</div>
-            <div key='clock-12' data-value='12'>{getLocale('clockFormat12')}</div>
-            <div key='clock-24' data-value='24'>{getLocale('clockFormat24')}</div>
-          </Select>
-        </SettingsRow>
-      </div>
-  }
+function ClockSettings() {
+  const [clockFormat, setClockFormat] = useNewTabPref('clockFormat')
+  const [showClock, setShowClock] = useNewTabPref('showClock')
+
+  return <div>
+    <SettingsRow>
+      <SettingsText>{getLocale('showClock')}</SettingsText>
+      <Toggle
+        onChange={() => setShowClock(!showClock)}
+        checked={showClock}
+        size='small'
+      />
+    </SettingsRow>
+    {showClock && <SettingsRow>
+      <SettingsText>{getLocale('clockFormat')}</SettingsText>
+      <StyledDropdown value={clockFormat} onChange={e => setClockFormat(e.detail.value)}>
+        {/* TODO(fallaciousreasoning): https://github.com/brave/leo/issues/305 */}
+        <span slot="value">
+          {clockFormats[clockFormat!]()}
+        </span>
+        {/* TODO(fallaciousreasoning): https://github.com/brave/leo/issues/302 */}
+        <span slot="placeholder">{clockFormats['']()}</span>
+        {Object.entries(clockFormats).map(([format, getText]) => <leo-option value={format}>{getText()}</leo-option>)}
+      </StyledDropdown>
+    </SettingsRow>}
+  </div>
+}
 
 export default ClockSettings

@@ -7,7 +7,7 @@ pipeline {
     }
     parameters {
         choice(name: 'CHANNEL', choices: ['nightly', 'dev', 'beta', 'release', 'development'])
-        choice(name: 'BUILD_TYPE', choices: ["Static", "Release", "Component", "Debug"])
+        choice(name: 'BUILD_TYPE', choices: ["Release", "Static", "Component", "Debug"])
         booleanParam(name: 'WIPE_WORKSPACE', defaultValue: false)
         booleanParam(name: 'USE_GOMA', defaultValue: true)
         booleanParam(name: 'SKIP_SIGNING', defaultValue: SKIP_SIGNING_DEFAULT)

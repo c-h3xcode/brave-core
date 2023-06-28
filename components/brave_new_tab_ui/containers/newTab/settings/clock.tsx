@@ -25,22 +25,15 @@ const StyledDropdown = styled(Dropdown)`
   width: 220px;
 `
 
-const clockFormats = {
-  '': () => {
-    const dateFormat = new Intl.DateTimeFormat()
-    const dateFormatOptions = dateFormat && dateFormat.resolvedOptions()
-    const localeInfo = dateFormatOptions && dateFormatOptions.locale
-      ? ` (${dateFormatOptions.locale})`
-      : ''
-    return `${getLocale('clockFormatDefault')}${localeInfo}`
-  },
-  '12': () => getLocale('clockFormat12'),
-  '24': () => getLocale('clockFormat24')
-}
-
 function ClockSettings() {
   const [clockFormat, setClockFormat] = useNewTabPref('clockFormat')
   const [showClock, setShowClock] = useNewTabPref('showClock')
+
+  const dateFormat = new Intl.DateTimeFormat()
+  const dateFormatOptions = dateFormat && dateFormat.resolvedOptions()
+  const localeInfo = dateFormatOptions && dateFormatOptions.locale
+    ? ` (${dateFormatOptions.locale})`
+    : ''
 
   return <div>
     <SettingsRow>
@@ -54,13 +47,9 @@ function ClockSettings() {
     {showClock && <SettingsRow>
       <SettingsText>{getLocale('clockFormat')}</SettingsText>
       <StyledDropdown value={clockFormat} onChange={e => setClockFormat(e.detail.value)}>
-        {/* TODO(fallaciousreasoning): https://github.com/brave/leo/issues/305 */}
-        <span slot="value">
-          {clockFormats[clockFormat!]()}
-        </span>
-        {/* TODO(fallaciousreasoning): https://github.com/brave/leo/issues/302 */}
-        <span slot="placeholder">{clockFormats['']()}</span>
-        {Object.entries(clockFormats).map(([format, getText]) => <leo-option value={format}>{getText()}</leo-option>)}
+        <leo-option value=''>{getLocale('clockFormatDefault')}{localeInfo}</leo-option>
+        <leo-option value='12'>{getLocale('clockFormat12')}</leo-option>
+        <leo-option value='24'>{getLocale('clockFormat24')}</leo-option>
       </StyledDropdown>
     </SettingsRow>}
   </div>

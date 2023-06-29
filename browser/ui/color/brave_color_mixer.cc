@@ -50,7 +50,7 @@ SkColor GetToolbarInkDropColor(const ui::ColorMixer& mixer) {
                      0xFF * kToolbarInkDropHighlightVisibleOpacity);
 }
 
-SkColor PickColorContrastingToToolbar(const ui::ColorProviderManager::Key& key,
+SkColor PickColorContrastingToToolbar(const ui::ColorProviderKey& key,
                                       const ui::ColorMixer& mixer,
                                       SkColor color1,
                                       SkColor color2) {
@@ -66,7 +66,7 @@ SkColor PickColorContrastingToToolbar(const ui::ColorProviderManager::Key& key,
 }
 
 #if BUILDFLAG(ENABLE_BRAVE_VPN) || BUILDFLAG(ENABLE_SPEEDREADER)
-SkColor PickSimilarColorToToolbar(const ui::ColorProviderManager::Key& key,
+SkColor PickSimilarColorToToolbar(const ui::ColorProviderKey& key,
                                   const ui::ColorMixer& mixer,
                                   SkColor light_theme_color,
                                   SkColor dark_theme_color) {
@@ -86,7 +86,7 @@ SkColor PickSimilarColorToToolbar(const ui::ColorProviderManager::Key& key,
 
 #if BUILDFLAG(ENABLE_BRAVE_VPN)
 void AddBraveVpnColorMixer(ui::ColorProvider* provider,
-                           const ui::ColorProviderManager::Key& key) {
+                           const ui::ColorProviderKey& key) {
   ui::ColorMixer& mixer = provider->AddMixer();
 
   mixer[kColorBraveVpnButtonText] = {
@@ -126,7 +126,7 @@ void AddBraveVpnColorMixer(ui::ColorProvider* provider,
 
 #if BUILDFLAG(ENABLE_SPEEDREADER)
 void AddBraveSpeedreaderColorMixer(ui::ColorProvider* provider,
-                                   const ui::ColorProviderManager::Key& key) {
+                                   const ui::ColorProviderKey& key) {
   ui::ColorMixer& mixer = provider->AddMixer();
 
   mixer[kColorSpeedreaderIcon] = {
@@ -159,7 +159,7 @@ void AddBraveSpeedreaderColorMixer(ui::ColorProvider* provider,
 #endif
 
 void AddChromeLightThemeColorMixer(ui::ColorProvider* provider,
-                                   const ui::ColorProviderManager::Key& key) {
+                                   const ui::ColorProviderKey& key) {
   ui::ColorMixer& mixer = provider->AddMixer();
 
   mixer[kColorTabThrobber] = {SkColorSetRGB(0xd7, 0x55, 0x26)};
@@ -200,7 +200,7 @@ void AddChromeLightThemeColorMixer(ui::ColorProvider* provider,
 }
 
 void AddChromeDarkThemeColorMixer(ui::ColorProvider* provider,
-                                  const ui::ColorProviderManager::Key& key) {
+                                  const ui::ColorProviderKey& key) {
   ui::ColorMixer& mixer = provider->AddMixer();
 
   mixer[kColorTabThrobber] = {SkColorSetRGB(0xd7, 0x55, 0x26)};
@@ -290,19 +290,18 @@ SkColor GetOmniboxResultBackground(int id, bool dark, bool priv) {
       color, base::ClampRound(omnibox_opacity * 0xff));
 }
 
-void AddBravifiedChromeThemeColorMixer(
-    ui::ColorProvider* provider,
-    const ui::ColorProviderManager::Key& key) {
+void AddBravifiedChromeThemeColorMixer(ui::ColorProvider* provider,
+                                       const ui::ColorProviderKey& key) {
   if (key.custom_theme)
     return;
 
-  key.color_mode == ui::ColorProviderManager::ColorMode::kDark
+  key.color_mode == ui::ColorProviderKey::ColorMode::kDark
       ? AddChromeDarkThemeColorMixer(provider, key)
       : AddChromeLightThemeColorMixer(provider, key);
 }
 
 void AddBraveLightThemeColorMixer(ui::ColorProvider* provider,
-                                  const ui::ColorProviderManager::Key& key) {
+                                  const ui::ColorProviderKey& key) {
   ui::ColorMixer& mixer = provider->AddMixer();
 
   mixer[kColorForTest] = {kLightColorForTest};
@@ -401,7 +400,7 @@ void AddBraveLightThemeColorMixer(ui::ColorProvider* provider,
 }
 
 void AddBraveDarkThemeColorMixer(ui::ColorProvider* provider,
-                                 const ui::ColorProviderManager::Key& key) {
+                                 const ui::ColorProviderKey& key) {
   ui::ColorMixer& mixer = provider->AddMixer();
 
   mixer[kColorForTest] = {kDarkColorForTest};
@@ -499,8 +498,8 @@ void AddBraveDarkThemeColorMixer(ui::ColorProvider* provider,
 
 // Handling dark or light theme on normal profile.
 void AddBraveThemeColorMixer(ui::ColorProvider* provider,
-                             const ui::ColorProviderManager::Key& key) {
-  key.color_mode == ui::ColorProviderManager::ColorMode::kDark
+                             const ui::ColorProviderKey& key) {
+  key.color_mode == ui::ColorProviderKey::ColorMode::kDark
       ? AddBraveDarkThemeColorMixer(provider, key)
       : AddBraveLightThemeColorMixer(provider, key);
 #if BUILDFLAG(ENABLE_BRAVE_VPN)
@@ -512,7 +511,7 @@ void AddBraveThemeColorMixer(ui::ColorProvider* provider,
 }
 
 void AddBravePrivateThemeColorMixer(ui::ColorProvider* provider,
-                                    const ui::ColorProviderManager::Key& key) {
+                                    const ui::ColorProviderKey& key) {
   AddBraveDarkThemeColorMixer(provider, key);
 
   // Add private theme specific brave colors here.
@@ -521,7 +520,7 @@ void AddBravePrivateThemeColorMixer(ui::ColorProvider* provider,
 }
 
 void AddBraveTorThemeColorMixer(ui::ColorProvider* provider,
-                                const ui::ColorProviderManager::Key& key) {
+                                const ui::ColorProviderKey& key) {
   AddBravePrivateThemeColorMixer(provider, key);
   AddChromeDarkThemeColorMixer(provider, key);
 
@@ -529,7 +528,7 @@ void AddBraveTorThemeColorMixer(ui::ColorProvider* provider,
 }
 
 void AddPrivateThemeColorMixer(ui::ColorProvider* provider,
-                               const ui::ColorProviderManager::Key& key) {
+                               const ui::ColorProviderKey& key) {
   AddBravePrivateThemeColorMixer(provider, key);
   AddChromeDarkThemeColorMixer(provider, key);
 
@@ -559,7 +558,7 @@ void AddPrivateThemeColorMixer(ui::ColorProvider* provider,
 }
 
 void AddTorThemeColorMixer(ui::ColorProvider* provider,
-                           const ui::ColorProviderManager::Key& key) {
+                           const ui::ColorProviderKey& key) {
   AddBraveTorThemeColorMixer(provider, key);
 
   ui::ColorMixer& mixer = provider->AddMixer();
@@ -581,9 +580,8 @@ void AddTorThemeColorMixer(ui::ColorProvider* provider,
       color_utils::HSLShift(kPrivateTorFrame, {-1, -1, 0.55})};
 }
 
-void AddBraveOmniboxLightThemeColorMixer(
-    ui::ColorProvider* provider,
-    const ui::ColorProviderManager::Key& key) {
+void AddBraveOmniboxLightThemeColorMixer(ui::ColorProvider* provider,
+                                         const ui::ColorProviderKey& key) {
   ui::ColorMixer& mixer = provider->AddMixer();
 
   mixer[kColorToolbarBackgroundSubtleEmphasis] = {GetLocationBarBackground(
@@ -603,9 +601,8 @@ void AddBraveOmniboxLightThemeColorMixer(
                                  /*dark*/ false, /*incognito*/ false)};
 }
 
-void AddBraveOmniboxDarkThemeColorMixer(
-    ui::ColorProvider* provider,
-    const ui::ColorProviderManager::Key& key) {
+void AddBraveOmniboxDarkThemeColorMixer(ui::ColorProvider* provider,
+                                        const ui::ColorProviderKey& key) {
   ui::ColorMixer& mixer = provider->AddMixer();
 
   mixer[kColorToolbarBackgroundSubtleEmphasis] = {GetLocationBarBackground(
@@ -625,9 +622,8 @@ void AddBraveOmniboxDarkThemeColorMixer(
                                  /*dark*/ true, /*incognito*/ false)};
 }
 
-void AddBraveOmniboxPrivateThemeColorMixer(
-    ui::ColorProvider* provider,
-    const ui::ColorProviderManager::Key& key) {
+void AddBraveOmniboxPrivateThemeColorMixer(ui::ColorProvider* provider,
+                                           const ui::ColorProviderKey& key) {
   ui::ColorMixer& mixer = provider->AddMixer();
 
   mixer[kColorToolbarBackgroundSubtleEmphasis] = {GetLocationBarBackground(

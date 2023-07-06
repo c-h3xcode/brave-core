@@ -296,12 +296,10 @@ export const AccountsAndTransactionsList = ({
                   <VerticalSpacer space={8} />
                   {accountsList.map((account) =>
                     <PortfolioAccountItem
+                      key={account.accountId.uniqueKey}
                       asset={selectedAsset}
                       defaultCurrencies={defaultCurrencies}
-                      key={account.accountId.uniqueKey}
-                      name={account.name}
-                      address={account.address}
-                      accountKind={account.accountId.kind}
+                      account={account}
                       assetBalance={getBalance(account, selectedAsset)}
                       selectedNetwork={selectedAssetNetwork || selectedNetwork}
                       showSellModal={() => onShowSellModal(account)}

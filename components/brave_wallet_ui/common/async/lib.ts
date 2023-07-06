@@ -3,6 +3,7 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this file,
 // you can obtain one at https://mozilla.org/MPL/2.0/.
 
+import { assertNotReached } from 'chrome://resources/js/assert_ts.js';
 import { mapLimit } from 'async'
 
 import {
@@ -27,13 +28,11 @@ import * as WalletActions from '../actions/wallet_actions'
 
 // Utils
 import {
-  getFilecoinKeyringIdFromNetwork,
-  getNetworksByCoinType,
+  filterNetworksForAccount,
   hasEIP1559Support
 } from '../../utils/network-utils'
 import { getAccountType } from '../../utils/account-utils'
 import { getTokenParam, getFlattenedAccountBalances } from '../../utils/api-utils'
-import Amount from '../../utils/amount'
 import { getAssetIdKey, getBatTokensFromList, getNativeTokensFromList, getUniqueAssets } from '../../utils/asset-utils'
 import { loadTimeData } from '../../../common/loadTimeData'
 import { getVisibleNetworksList } from '../slices/api.slice'
@@ -119,48 +118,6 @@ export const onConnectHardwareWallet = (opts: HardwareWalletConnectOpts): Promis
           reject(result.error)
         })
         .catch(reject)
-    }
-  })
-}
-
-export function getBalanceForChainId (address: string, coin: BraveWallet.CoinType, chainId: string): Promise<string> {
-  return new Promise(async (resolve, reject) => {
-    const { jsonRpcService } = getAPIProxy()
-    if (coin === BraveWallet.CoinType.SOL) {
-      const result = await jsonRpcService.getSolanaBalance(address, chainId)
-      if (result.error === BraveWallet.SolanaProviderError.kSuccess) {
-        resolve(Amount.normalize(result.balance.toString()))
-      } else {
-        reject(result.errorMessage)
-      }
-      return
-    }
-    const result = await jsonRpcService.getBalance(address, coin, chainId)
-    if (result.error === BraveWallet.ProviderError.kSuccess) {
-      resolve(Amount.normalize(result.balance))
-    } else {
-      reject(result.errorMessage)
-    }
-  })
-}
-
-export function getTokenBalanceForChainId (contract: string, address: string, coin: BraveWallet.CoinType, chainId: string): Promise<string> {
-  return new Promise(async (resolve, reject) => {
-    const { jsonRpcService } = getAPIProxy()
-    if (coin === BraveWallet.CoinType.SOL) {
-      const result = await jsonRpcService.getSPLTokenAccountBalance(address, contract, chainId)
-      if (result.error === BraveWallet.SolanaProviderError.kSuccess) {
-        resolve(Amount.normalize(result.amount))
-      } else {
-        reject(result.errorMessage)
-      }
-      return
-    }
-    const result = await jsonRpcService.getERC20TokenBalance(contract, address, chainId)
-    if (result.error === BraveWallet.ProviderError.kSuccess) {
-      resolve(Amount.normalize(result.balance))
-    } else {
-      reject(result.errorMessage)
     }
   })
 }
@@ -322,7 +279,7 @@ export const getAllBuyAssets = async (): Promise<{
     async (chainId: string) =>
       await blockchainRegistry.getBuyTokens(kStripe, chainId)
   )
-  
+
   // add token logos
   const rampAssetOptions: BraveWallet.BlockchainToken[] = await mapLimit(
     rampAssets.flatMap((p) => p.tokens),
@@ -581,7 +538,7 @@ function reportActiveWalletsToP3A (accounts: WalletAccountType[],
 export function refreshBalances () {
   return async (dispatch: Dispatch, getState: () => State) => {
     const api = getAPIProxy()
-    const { jsonRpcService } = api
+    const { jsonRpcService, bitcoinWalletService } = api
     const {
       wallet: { accounts, userVisibleTokensInfo }
     } = getState()
@@ -598,16 +555,16 @@ export function refreshBalances () {
       accounts,
       10,
       async (account: WalletAccountType) => {
-        const networks = getNetworksByCoinType(
+        const networks = filterNetworksForAccount(
           networkList,
-          account.accountId.coin
+          account.accountId
         )
 
         return mapLimit(
           networks,
           10,
           async (network: BraveWallet.NetworkInfo) => {
-            // Get CoinType SOL balances
+            // Get SOL balances
             if (network.coin === BraveWallet.CoinType.SOL) {
               const getSolBalanceInfo = await jsonRpcService.getSolanaBalance(
                 account.address,
@@ -624,29 +581,15 @@ export function refreshBalances () {
                 : solBalanceInfo
             }
 
-            // Get CoinType FIL balances
+            // Get FIL balances
             if (account.accountId.coin === BraveWallet.CoinType.FIL) {
-              if (networkList.some((n) => n.chainId === network.chainId)) {
-                // Get CoinType FIL balances
-                if (
-                  network.coin === BraveWallet.CoinType.FIL &&
-                  account.accountId.keyringId ===
-                    getFilecoinKeyringIdFromNetwork(network)
-                ) {
-                  const balanceInfo = await jsonRpcService.getBalance(
-                    account.address,
-                    account.accountId.coin,
-                    network.chainId
-                  )
-                  return {
-                    ...balanceInfo,
-                    chainId: network.chainId
-                  }
-                }
-              }
-
+              const balanceInfo = await jsonRpcService.getBalance(
+                account.address,
+                account.accountId.coin,
+                network.chainId
+              )
               return {
-                ...emptyBalance,
+                ...balanceInfo,
                 chainId: network.chainId
               }
             }
@@ -672,16 +615,33 @@ export function refreshBalances () {
               }
             }
 
-            // Get CoinType ETH balances
-            const balanceInfo = await jsonRpcService.getBalance(
-              account.address,
-              account.accountId.coin,
-              network.chainId
-            )
-            return {
-              ...balanceInfo,
-              chainId: network.chainId
+            // Get ETH balances
+            if (account.accountId.coin === BraveWallet.CoinType.ETH) {
+              const balanceInfo = await jsonRpcService.getBalance(
+                account.address,
+                account.accountId.coin,
+                network.chainId
+              )
+              return {
+                ...balanceInfo,
+                chainId: network.chainId
+              }
             }
+
+            // Get BTC balances
+            if (account.accountId.coin === BraveWallet.CoinType.BTC) {
+              const balanceInfo = await bitcoinWalletService.getBalance(
+                network.chainId,
+                account.accountId
+              )
+              return {
+                ...balanceInfo,
+                error: 0,
+                chainId: network.chainId
+              }
+            }
+
+            assertNotReached(`Unknown coin ${account.accountId.coin}`)
           }
         )
       }
@@ -697,9 +657,9 @@ export function refreshBalances () {
       accounts,
       10,
       async (account: WalletAccountType) => {
-        const networks = getNetworksByCoinType(
+        const networks = filterNetworksForAccount(
           networkList,
-          account.accountId.coin
+          account.accountId
         )
         if (account.accountId.coin === BraveWallet.CoinType.ETH) {
           return mapLimit(

@@ -206,8 +206,7 @@ export const usePendingTransactions = () => {
   const { data: nativeBalance } = useGetAccountTokenCurrentBalanceQuery(
     txAccount && transactionsNetwork
       ? {
-          coin: txAccount.accountId.coin,
-          address: txAccount.address,
+          accountId: txAccount.accountId,
           token: {
             coin: transactionsNetwork.coin,
             chainId: transactionsNetwork.chainId,
@@ -223,8 +222,7 @@ export const usePendingTransactions = () => {
   const { data: transferTokenBalance } = useGetAccountTokenCurrentBalanceQuery(
     txAccount && transactionDetails?.token
       ? {
-          coin: txAccount.accountId.coin,
-          address: txAccount.address,
+          accountId: txAccount.accountId,
           token: {
             coin: transactionDetails.token.coin,
             chainId: transactionDetails.token.chainId,
@@ -240,8 +238,7 @@ export const usePendingTransactions = () => {
   const { data: sellTokenBalance } = useGetAccountTokenCurrentBalanceQuery(
     txAccount && transactionDetails?.sellToken
       ? {
-          coin: txAccount.accountId.coin,
-          address: txAccount.address,
+          accountId: txAccount.accountId,
           token: {
             coin: transactionDetails.sellToken.coin,
             chainId: transactionDetails.sellToken.chainId,

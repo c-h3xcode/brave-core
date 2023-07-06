@@ -39,14 +39,14 @@ export const useScopedBalanceUpdater = (arg: Arg | typeof skipToken) => {
         ? {
             chainId: arg.network.chainId,
             coin: CoinTypes.SOL,
-            pubkey: arg.account.address,
+            accountId: arg.account.accountId,
             tokens: arg.tokens
           }
         : arg.account.accountId.coin === CoinTypes.ETH && arg.tokens
         ? {
             chainId: arg.network.chainId,
             coin: CoinTypes.ETH,
-            address: arg.account.address,
+            accountId: arg.account.accountId,
             tokens: arg.tokens
           }
         : skipToken

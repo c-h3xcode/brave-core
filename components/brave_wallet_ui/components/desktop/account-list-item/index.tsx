@@ -248,8 +248,7 @@ export const AccountListItem = ({
       <NameAndIcon>
         <CreateAccountIcon
           size='big'
-          address={account.address}
-          accountKind={account.accountId.kind}
+          account={account}
           marginRight={16}
         />
         <AccountAndAddress>
@@ -258,16 +257,16 @@ export const AccountListItem = ({
           >
             {account.name}
           </AccountNameButton>
-          <AddressAndButtonRow>
-            <AccountAddressButton
-              onClick={onSelectAccount}
-            >
-              {reduceAddress(account.address)}
-            </AccountAddressButton>
-            <CopyTooltip text={account.address}>
-              <CopyIcon />
-            </CopyTooltip>
-          </AddressAndButtonRow>
+          {account.address && (
+            <AddressAndButtonRow>
+              <AccountAddressButton onClick={onSelectAccount}>
+                {reduceAddress(account.address)}
+              </AccountAddressButton>
+              <CopyTooltip text={account.address}>
+                <CopyIcon />
+              </CopyTooltip>
+            </AddressAndButtonRow>
+          )}
           <AccountDescription>
             {getAccountTypeDescription(account.accountId.coin)}
           </AccountDescription>

@@ -10,7 +10,6 @@ import { useDispatch } from 'react-redux'
 import {
   BraveWallet,
   WalletAccountType,
-  WalletRoutes,
   AccountPageTabs
 } from '../../../constants/types'
 
@@ -35,6 +34,7 @@ import {
 } from '../../nft-ui-messages'
 import { areSupportedForPinning, extractIpfsUrl } from '../../../common/async/lib'
 import { getLocale } from '../../../../common/locale'
+import { makeAccountRoute } from '../../../utils/routes-utils'
 
 // actions
 import { WalletActions } from '../../../common/actions'
@@ -57,7 +57,6 @@ import { Skeleton } from '../../../components/shared/loading-skeleton/styles'
 import { ErrorTooltip } from '../../../components/desktop/nft-pinning-status/components/error-tooltip/error-tooltip'
 import { CopyTooltip } from '../../../components/shared/copy-tooltip/copy-tooltip'
 import CreateNetworkIcon from '../../../components/shared/create-network-icon'
-
 
 // styles
 import {
@@ -212,12 +211,8 @@ export const NftScreen = (props: Props) => {
   }, [selectedAsset])
 
   const onClickViewAccount = React.useCallback((account: WalletAccountType) => {
-    history.push(
-      `${WalletRoutes.Accounts //
-      }/${account.address //
-      }/${AccountPageTabs.AccountAssetsSub}`
-    )
-  }, [])
+    history.push(makeAccountRoute(account, AccountPageTabs.AccountAssetsSub))
+  }, [history])
 
   // effects
   React.useEffect(() => {

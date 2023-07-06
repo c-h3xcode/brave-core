@@ -20,6 +20,7 @@
 #include "brave/components/brave_federated/features.h"
 #include "brave/components/brave_rewards/common/rewards_util.h"
 #include "brave/components/brave_shields/common/features.h"
+#include "brave/components/brave_wallet/common/common_utils.h"
 #include "brave/components/constants/pref_names.h"
 #include "brave/components/constants/webui_url_constants.h"
 #include "brave/components/ipfs/buildflags/buildflags.h"
@@ -115,8 +116,9 @@ WebUIController* NewWebUI(WebUI* web_ui, const GURL& url) {
     if (brave_wallet::IsNativeWalletEnabled()) {
       auto default_wallet =
           brave_wallet::GetDefaultEthereumWallet(profile->GetPrefs());
-      if (default_wallet == brave_wallet::mojom::DefaultWallet::CryptoWallets)
+      if (default_wallet == brave_wallet::mojom::DefaultWallet::CryptoWallets) {
         return new EthereumRemoteClientUI(web_ui, url.host());
+      }
       return new WalletPageUI(web_ui);
     }
 #if BUILDFLAG(ETHEREUM_REMOTE_CLIENT_ENABLED)
@@ -289,8 +291,9 @@ WebUI::TypeID BraveWebUIControllerFactory::GetWebUIType(
   }
 #endif  // BUILDFLAG(IS_ANDROID)
 #if BUILDFLAG(ENABLE_PLAYLIST_WEBUI)
-  if (playlist::PlaylistUI::ShouldBlockPlaylistWebUI(browser_context, url))
+  if (playlist::PlaylistUI::ShouldBlockPlaylistWebUI(browser_context, url)) {
     return WebUI::kNoWebUI;
+  }
 #endif
   Profile* profile = Profile::FromBrowserContext(browser_context);
   WebUIFactoryFunction function =

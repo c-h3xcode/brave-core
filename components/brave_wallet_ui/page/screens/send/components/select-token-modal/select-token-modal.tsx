@@ -16,9 +16,7 @@ import { BraveWallet, WalletAccountType, CoinTypesMap, SendOptionTypes } from '.
 // Utils
 import { getLocale } from '../../../../../../common/locale'
 import { getPriceIdForToken } from '../../../../../utils/api-utils'
-import {
-  getFilecoinKeyringIdFromNetwork //
-} from '../../../../../utils/network-utils'
+import { filterNetworksForAccount } from '../../../../../utils/network-utils'
 import { getBalance } from '../../../../../utils/balance-utils'
 import {
   computeFiatAmount,
@@ -86,14 +84,9 @@ export const SelectTokenModal = React.forwardRef<HTMLDivElement, Props>(
       const localHostCoins = userVisibleTokensInfo.filter((token) => token.chainId === BraveWallet.LOCALHOST_CHAIN_ID)
       const accountsLocalHost = localHostCoins.find((token) => token.symbol.toUpperCase() === coinName)
 
-      const chainList = networks
-        .filter(
-          (network) =>
-            network.coin === account.accountId.coin &&
-            (network.coin !== BraveWallet.CoinType.FIL ||
-              getFilecoinKeyringIdFromNetwork(network) === account.accountId.keyringId)
-        )
-        .map((network) => network.chainId)
+      const chainList = filterNetworksForAccount(networks, account.accountId).map(
+        (network) => network.chainId
+      )
 
       const list = userVisibleTokensInfo.filter(
         (token) =>

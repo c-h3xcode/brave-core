@@ -42,7 +42,8 @@ import { getBalance } from '../../../../../../utils/balance-utils'
 import { getPriceIdForToken } from '../../../../../../utils/api-utils'
 import { computeFiatAmount } from '../../../../../../utils/pricing-utils'
 import {
-  emptyNetwork
+  emptyNetwork,
+  networkMatchesAccount
 } from '../../../../../../utils/network-utils'
 
 // Components
@@ -319,12 +320,19 @@ export const TokenLists = ({
   // Returns a list of assets based on provided coin type
   const getAssetsByCoin = React.useCallback(
     (account: WalletAccountType) => {
-      return filteredAssetList
-        .filter(
-          (asset) => asset.asset.coin ===
-            account.accountId.coin
+      return filteredAssetList.filter((asset) => {
+        const networkInfo = networks?.find(
+          (network) =>
+            network.coin === asset.asset.coin &&
+            network.chainId === asset.asset.chainId
         )
-    }, [filteredAssetList])
+        return (
+          networkInfo && networkMatchesAccount(networkInfo, account.accountId)
+        )
+      })
+    },
+    [filteredAssetList, networks]
+  )
 
   // Returns a list of assets based on provided account
   // and filters out small balances if hideSmallBalances

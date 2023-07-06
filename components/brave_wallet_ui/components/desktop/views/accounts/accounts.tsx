@@ -10,7 +10,6 @@ import { useHistory } from 'react-router'
 import {
   WalletAccountType,
   WalletState,
-  WalletRoutes,
   BraveWallet,
   AccountPageTabs
 } from '../../../../constants/types'
@@ -22,6 +21,7 @@ import {
   groupAccountsById,
   sortAccountsByName
 } from '../../../../utils/account-utils'
+import { makeAccountRoute } from '../../../../utils/routes-utils'
 
 // Styled Components
 import {
@@ -52,13 +52,9 @@ export const Accounts = () => {
   // methods
   const onSelectAccount = React.useCallback((account: WalletAccountType | undefined) => {
     if (account) {
-      history.push(
-        `${WalletRoutes.Accounts //
-        }/${account.address //
-        }/${AccountPageTabs.AccountAssetsSub}`
-      )
+      history.push(makeAccountRoute(account, AccountPageTabs.AccountAssetsSub))
     }
-  }, [])
+  }, [history])
 
   // memos
   const derivedAccounts = React.useMemo(() => {

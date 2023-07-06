@@ -24,6 +24,7 @@ export function createWalletApiBase() {
       'AccountTokenCurrentBalance',
       'CombinedTokenBalanceForAllAccounts',
       'TokenBalancesForChainId',
+      'HardwareAccountDiscoveryBalance',
       'DefaultFiatCurrency',
       'ERC721Metadata',
       'SolanaEstimatedFees',

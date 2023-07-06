@@ -97,8 +97,7 @@ export const useSwap = () => {
       token: BraveWallet.BlockchainToken
     ) => {
       return await getAccountTokenCurrentBalanceLazy({
-        coin: accountId.coin,
-        address: accountId.address,
+        accountId,
         token
       }).unwrap()
     },
@@ -304,14 +303,14 @@ export const useSwap = () => {
         let tokenBalancesResult
         if (network.coin === BraveWallet.CoinType.ETH) {
           tokenBalancesResult = await getTokenBalances({
-            address: networkAccountId.address,
+            accountId: networkAccountId,
             tokens: networkTokens,
             chainId: network.chainId,
             coin: CoinTypes.ETH
           }).unwrap()
         } else if (network.coin === BraveWallet.CoinType.SOL) {
           tokenBalancesResult = await getTokenBalances({
-            pubkey: networkAccountId.address,
+            accountId: networkAccountId,
             chainId: network.chainId,
             coin: CoinTypes.SOL
           }).unwrap()

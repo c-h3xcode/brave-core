@@ -228,8 +228,7 @@ export const AccountDetailsHeader = (props: Props) => {
             name='arrow-left' />
         </CircleButton>
         <CreateAccountIcon
-          address={account.address}
-          accountKind={account.accountId.kind}
+          account={account}
           size='big'
           marginRight={8}
         />

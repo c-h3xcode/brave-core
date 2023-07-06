@@ -24,6 +24,7 @@ const mockAccount: WalletAccountType = {
     keyringId: BraveWallet.KeyringId.kDefault,
     kind: BraveWallet.AccountKind.kDerived,
     address: '0x15B83cC0e0fA0bFd21181fd2e07Ad900EA8D6ef1',
+    bitcoinAccountIndex: 0,
     uniqueKey: '0x15B83cC0e0fA0bFd21181fd2e07Ad900EA8D6ef1'
   },
   name: 'Account 1',
@@ -45,6 +46,7 @@ const mockAccount2: WalletAccountType = {
     keyringId: BraveWallet.KeyringId.kDefault,
     kind: BraveWallet.AccountKind.kDerived,
     address: '0x25B83cC0e0fA0bFd21181fd2e07Ad900EA8D6ef2',
+    bitcoinAccountIndex: 0,
     uniqueKey: '0x25B83cC0e0fA0bFd21181fd2e07Ad900EA8D6ef2'
   },
   name: 'Account 2',
@@ -66,6 +68,7 @@ const mockAccount3: WalletAccountType = {
     keyringId: BraveWallet.KeyringId.kDefault,
     kind: BraveWallet.AccountKind.kDerived,
     address: '0x35B83cC0e0fA0bFd21181fd2e07Ad900EA8D6ef3',
+    bitcoinAccountIndex: 0,
     uniqueKey: '0x35B83cC0e0fA0bFd21181fd2e07Ad900EA8D6ef3'
   },
   name: 'Account 3',

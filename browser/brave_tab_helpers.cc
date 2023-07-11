@@ -43,7 +43,6 @@
 #endif
 
 #if !BUILDFLAG(IS_ANDROID)
-#include "brave/browser/onboarding/onboarding_tab_helper.h"
 #include "brave/browser/ui/brave_shields_data_controller.h"
 #include "chrome/browser/ui/thumbnails/thumbnail_tab_helper.h"
 #endif
@@ -89,6 +88,7 @@
 #endif
 
 #if defined(TOOLKIT_VIEWS)
+#include "brave/browser/onboarding/onboarding_tab_helper.h"
 #include "brave/browser/ui/sidebar/sidebar_tab_helper.h"
 #endif
 
@@ -106,7 +106,6 @@ void AttachTabHelpers(content::WebContents* web_contents) {
   // Add tab helpers here unless they are intended for android too
   BraveBookmarkTabHelper::CreateForWebContents(web_contents);
   brave_shields::BraveShieldsDataController::CreateForWebContents(web_contents);
-  OnboardingTabHelper::MaybeCreateForWebContents(web_contents);
   ThumbnailTabHelper::CreateForWebContents(web_contents);
 #endif
 
@@ -153,6 +152,7 @@ void AttachTabHelpers(content::WebContents* web_contents) {
 
 #if defined(TOOLKIT_VIEWS)
   SidebarTabHelper::CreateForWebContents(web_contents);
+  OnboardingTabHelper::MaybeCreateForWebContents(web_contents);
 #endif
 
   if (!web_contents->GetBrowserContext()->IsOffTheRecord()) {

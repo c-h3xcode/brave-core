@@ -31,6 +31,14 @@ URLSanitizerService* URLSanitizerServiceFactory::GetForBrowserContext(
       GetInstance()->GetServiceForBrowserContext(context, true));
 }
 
+// static
+mojo::PendingRemote<mojom::URLSanitizerService>
+URLSanitizerServiceFactory::GetForContext(content::BrowserContext* context) {
+  return static_cast<URLSanitizerService*>(
+             GetInstance()->GetServiceForBrowserContext(context, true))
+      ->MakeRemote();
+}
+
 URLSanitizerServiceFactory::URLSanitizerServiceFactory()
     : BrowserContextKeyedServiceFactory(
           "URLSanitizerService",

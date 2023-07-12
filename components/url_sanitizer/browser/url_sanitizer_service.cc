@@ -36,6 +36,18 @@ bool CreateURLPatternSetFromList(const base::Value::List* value,
   return valid;
 }
 
+mojo::PendingRemote<mojom::URLSanitizerService>
+URLSanitizerService::MakeRemote() {
+  mojo::PendingRemote<mojom::URLSanitizerService> remote;
+  receivers_.Add(this, remote.InitWithNewPipeAndPassReceiver());
+  return remote;
+}
+
+void URLSanitizerService::Bind(
+    mojo::PendingReceiver<mojom::URLSanitizerService> receiver) {
+  receivers_.Add(this, std::move(receiver));
+}
+
 absl::optional<base::flat_set<std::string>> CreateParamsList(
     const base::Value::List* value) {
   if (!value) {

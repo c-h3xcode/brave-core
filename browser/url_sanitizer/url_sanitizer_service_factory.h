@@ -6,7 +6,10 @@
 #ifndef BRAVE_BROWSER_URL_SANITIZER_URL_SANITIZER_SERVICE_FACTORY_H_
 #define BRAVE_BROWSER_URL_SANITIZER_URL_SANITIZER_SERVICE_FACTORY_H_
 
+#include "brave/components/url_sanitizer/common/mojom/url_sanitizer.mojom.h"
 #include "components/keyed_service/content/browser_context_keyed_service_factory.h"
+#include "mojo/public/cpp/bindings/pending_remote.h"
+#endif
 
 namespace base {
 template <typename T>
@@ -20,6 +23,8 @@ class URLSanitizerService;
 class URLSanitizerServiceFactory : public BrowserContextKeyedServiceFactory {
  public:
   static URLSanitizerService* GetForBrowserContext(
+      content::BrowserContext* context);
+  static mojo::PendingRemote<URLSanitizerService> GetForContext(
       content::BrowserContext* context);
   static URLSanitizerServiceFactory* GetInstance();
 

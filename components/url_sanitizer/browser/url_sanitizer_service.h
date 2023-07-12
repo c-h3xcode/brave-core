@@ -17,8 +17,10 @@
 #include "base/memory/weak_ptr.h"
 #include "base/strings/string_piece.h"
 #include "brave/components/url_sanitizer/browser/url_sanitizer_component_installer.h"
+#include "brave/components/url_sanitizer/common/url_sanitizer.mojom.h"
 #include "components/keyed_service/core/keyed_service.h"
 #include "extensions/common/url_pattern_set.h"
+#include "mojo/public/cpp/bindings/receiver_set.h"
 #include "url/gurl.h"
 
 namespace brave {
@@ -28,6 +30,11 @@ class URLSanitizerService : public KeyedService,
  public:
   URLSanitizerService();
   ~URLSanitizerService() override;
+
+  mojo::PendingRemote<mojom::URLSanitizerService> MakeRemote();
+  void Bind(mojo::PendingReceiver<mojom::URLSanitizerService> receiver);
+  // void SanitizeURL(const std::string& filterListUuid,
+  //                         URLSanitizerCallback callback) override;
 
   struct MatchItem {
     MatchItem();
@@ -62,6 +69,7 @@ class URLSanitizerService : public KeyedService,
   base::flat_set<std::unique_ptr<URLSanitizerService::MatchItem>> matchers_;
   base::OnceClosure initialization_callback_for_testing_;
   base::WeakPtrFactory<URLSanitizerService> weak_factory_{this};
+  mojo::ReceiverSet<mojom::URLSanitizerService> receivers_;
 };
 
 }  // namespace brave

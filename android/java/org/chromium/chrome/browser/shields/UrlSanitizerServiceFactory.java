@@ -14,7 +14,7 @@ import org.chromium.mojo.bindings.Interface;
 import org.chromium.mojo.bindings.Interface.Proxy.Handler;
 import org.chromium.mojo.system.MessagePipeHandle;
 import org.chromium.mojo.system.impl.CoreImpl;
-import org.chromium.url_sanitizer.mojom.UrlSanitizerHandler;
+import org.chromium.url_sanitizer.mojom.UrlSanitizerService;
 
 @JNINamespace("chrome::android")
 public class UrlSanitizerServiceFactory {
@@ -32,7 +32,7 @@ public class UrlSanitizerServiceFactory {
 
     private UrlSanitizerServiceFactory() {}
 
-    public UrlSanitizerHandler getUrlSanitizerAndroidHandler(
+    public UrlSanitizerService getUrlSanitizerAndroirService(
             ConnectionErrorHandler connectionErrorHandler) {
         Profile profile = Utils.getProfile(false); // Always use regular profile
         if (profile == null) {
@@ -44,12 +44,12 @@ public class UrlSanitizerServiceFactory {
             return null;
         }
         MessagePipeHandle handle = wrapNativeHandle(nativeHandle);
-        UrlSanitizerHandler urlSanitizerAndroidHandler =
-                UrlSanitizerHandler.MANAGER.attachProxy(handle, 0);
-        Handler handler = ((Interface.Proxy) urlSanitizerAndroidHandler).getProxyHandler();
+        UrlSanitizerService urlSanitizerServiceAndroid =
+                UrlSanitizerService.MANAGER.attachProxy(handle, 0);
+        Handler handler = ((Interface.Proxy) urlSanitizerServiceAndroid).getProxyHandler();
         handler.setErrorHandler(connectionErrorHandler);
 
-        return urlSanitizerAndroidHandler;
+        return urlSanitizerServiceAndroid;
     }
 
     private MessagePipeHandle wrapNativeHandle(long nativeHandle) {

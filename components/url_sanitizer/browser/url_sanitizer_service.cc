@@ -36,18 +36,6 @@ bool CreateURLPatternSetFromList(const base::Value::List* value,
   return valid;
 }
 
-mojo::PendingRemote<mojom::URLSanitizerService>
-URLSanitizerService::MakeRemote() {
-  mojo::PendingRemote<mojom::URLSanitizerService> remote;
-  receivers_.Add(this, remote.InitWithNewPipeAndPassReceiver());
-  return remote;
-}
-
-void URLSanitizerService::Bind(
-    mojo::PendingReceiver<mojom::URLSanitizerService> receiver) {
-  receivers_.Add(this, std::move(receiver));
-}
-
 absl::optional<base::flat_set<std::string>> CreateParamsList(
     const base::Value::List* value) {
   if (!value) {
@@ -111,6 +99,19 @@ URLSanitizerService::~URLSanitizerService() = default;
 
 URLSanitizerService::MatchItem::MatchItem() = default;
 URLSanitizerService::MatchItem::~MatchItem() = default;
+
+mojo::PendingRemote<url_sanitizer::mojom::UrlSanitizerService>
+URLSanitizerService::MakeRemote() {
+  mojo::PendingRemote<url_sanitizer::mojom::UrlSanitizerService> remote;
+  receivers_.Add(this, remote.InitWithNewPipeAndPassReceiver());
+  return remote;
+}
+
+void URLSanitizerService::SanitizeURL(const std::string& url,
+                                      SanitizeURLCallback callback) {
+  const auto& sanitized_url = SanitizeURL(GURL(url));
+  std::move(callback).Run(sanitized_url.spec());
+}
 
 URLSanitizerService::MatchItem::MatchItem(extensions::URLPatternSet in,
                                           extensions::URLPatternSet ex,

@@ -6,6 +6,6 @@
 module url_sanitizer.mojom;
 
 
-interface UrlSanitizerHandler {
+interface UrlSanitizerService {
     SanitizeURL(string initial_url) => (string sanitized_url);
 };

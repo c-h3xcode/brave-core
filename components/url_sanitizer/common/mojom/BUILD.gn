@@ -7,11 +7,6 @@ import("//mojo/public/tools/bindings/mojom.gni")
 
 mojom("mojom") {
   generate_java = true
-  sources = [
-    "url_sanitizer.mojom"
-  ]
-  public_deps = [
-    "//mojo/public/mojom/base"
-  ]
+  sources = [ "url_sanitizer.mojom" ]
+  public_deps = [ "//mojo/public/mojom/base" ]
 }
-

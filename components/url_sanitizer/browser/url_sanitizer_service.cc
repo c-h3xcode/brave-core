@@ -18,6 +18,9 @@
 #include "third_party/abseil-cpp/absl/types/optional.h"
 #include "url/gurl.h"
 
+#undef ENABLED_VLOG_LEVEL
+#define ENABLED_VLOG_LEVEL 1
+
 namespace brave {
 
 namespace {
@@ -109,6 +112,8 @@ URLSanitizerService::MakeRemote() {
 
 void URLSanitizerService::SanitizeURL(const std::string& url,
                                       SanitizeURLCallback callback) {
+  VLOG(1) << "SujitSujit SanitizeURL";
+
   const auto& sanitized_url = SanitizeURL(GURL(url));
   std::move(callback).Run(sanitized_url.spec());
 }
@@ -133,8 +138,10 @@ void URLSanitizerService::UpdateMatchers(
 }
 
 GURL URLSanitizerService::SanitizeURL(const GURL& initial_url) {
-  if (matchers_.empty() || !initial_url.SchemeIsHTTPOrHTTPS())
+  if (matchers_.empty() || !initial_url.SchemeIsHTTPOrHTTPS()) {
+    VLOG(1) << "SujitSujit initial_url";
     return initial_url;
+  }
   GURL url = initial_url;
   for (const auto& it : matchers_) {
     if (!it->include.MatchesURL(url) || it->exclude.MatchesURL(url))
@@ -148,6 +155,8 @@ GURL URLSanitizerService::SanitizeURL(const GURL& initial_url) {
     }
     url = url.ReplaceComponents(replacements);
   }
+  VLOG(1) << "SujitSujit initial_url.......";
+
   return url;
 }
 

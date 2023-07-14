@@ -13,6 +13,7 @@ import androidx.preference.PreferenceCategory;
 
 import org.chromium.base.BraveFeatureList;
 import org.chromium.base.ContextUtils;
+import org.chromium.base.Log;
 import org.chromium.brave_shields.mojom.CookieListOptInPageAndroidHandler;
 import org.chromium.brave_shields.mojom.FilterListAndroidHandler;
 import org.chromium.brave_shields.mojom.FilterListConstants;
@@ -34,6 +35,7 @@ import org.chromium.chrome.browser.settings.BraveWebrtcPolicyPreference;
 import org.chromium.chrome.browser.settings.ChromeManagedPreferenceDelegate;
 import org.chromium.chrome.browser.shields.CookieListOptInServiceFactory;
 import org.chromium.chrome.browser.shields.FilterListServiceFactory;
+import org.chromium.chrome.browser.shields.UrlSanitizerServiceFactory;
 import org.chromium.components.browser_ui.settings.ChromeBasePreference;
 import org.chromium.components.browser_ui.settings.ChromeSwitchPreference;
 import org.chromium.components.browser_ui.settings.SettingsUtils;
@@ -42,6 +44,7 @@ import org.chromium.components.user_prefs.UserPrefs;
 import org.chromium.gms.ChromiumPlayServicesAvailability;
 import org.chromium.mojo.bindings.ConnectionErrorHandler;
 import org.chromium.mojo.system.MojoException;
+import org.chromium.url_sanitizer.mojom.UrlSanitizerService;
 
 /**
  * Fragment to keep track of the all the brave privacy related preferences.
@@ -196,6 +199,29 @@ public class BravePrivacySettings extends PrivacySettings implements ConnectionE
         if (mFilterListAndroidHandler != null) {
             return;
         }
+
+        UrlSanitizerService s =
+                UrlSanitizerServiceFactory.getInstance().getUrlSanitizerAndroidService(this);
+        s.sanitizeUrl("https://dev-pages.bravesoftware.com/clean-urls/"
+                        + "?brave_testing1=foo&brave_testing2=bar&brave_testing3=keep&&;b&d&"
+                        + "utm_content=removethis&e=&f=g&=end",
+                result -> { Log.e("SujitSujit", "result " + result); });
+
+        Log.e("SujitSujit", "--------------- ");
+
+        UrlSanitizerService s1 =
+                UrlSanitizerServiceFactory.getInstance().getUrlSanitizerAndroidService(this);
+        s1.sanitizeUrl("https://brave.com/?query=removethis",
+                result -> { Log.e("SujitSujit", "result " + result); });
+
+        Log.e("SujitSujit", "--------------- ");
+
+        UrlSanitizerService s2 =
+                UrlSanitizerServiceFactory.getInstance().getUrlSanitizerAndroidService(this);
+        s2.sanitizeUrl("https://brave.com/?utm_source=foo",
+                result -> { Log.e("SujitSujit", "result " + result); });
+
+        Log.e("SujitSujit", "--------------- ");
 
         mFilterListAndroidHandler =
                 FilterListServiceFactory.getInstance().getFilterListAndroidHandler(this);

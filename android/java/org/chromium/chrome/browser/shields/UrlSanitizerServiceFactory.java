@@ -32,7 +32,7 @@ public class UrlSanitizerServiceFactory {
 
     private UrlSanitizerServiceFactory() {}
 
-    public UrlSanitizerService getUrlSanitizerAndroirService(
+    public UrlSanitizerService getUrlSanitizerAndroidService(
             ConnectionErrorHandler connectionErrorHandler) {
         Profile profile = Utils.getProfile(false); // Always use regular profile
         if (profile == null) {

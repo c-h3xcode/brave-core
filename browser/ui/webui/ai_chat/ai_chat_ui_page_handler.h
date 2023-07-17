@@ -61,6 +61,7 @@ class AIChatUIPageHandler : public ai_chat::mojom::PageHandler,
   void GenerateQuestions() override;
   void SetAutoGenerateQuestions(bool can_auto_generate_questions) override;
   void GetSiteInfo(GetSiteInfoCallback callback) override;
+  void RetryHumanConversationEntry(const std::string& uuid) override;
 
   // content::WebContentsObserver:
   void OnVisibilityChanged(content::Visibility visibility) override;

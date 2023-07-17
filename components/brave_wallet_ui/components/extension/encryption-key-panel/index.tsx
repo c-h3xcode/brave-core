@@ -5,7 +5,7 @@
 import * as React from 'react'
 
 // Types
-import { BraveWallet, SerializableDecryptRequest, SerializableGetEncryptionPublicKeyRequest, WalletAccountType } from '../../../constants/types'
+import { BraveWallet, SerializableGetEncryptionPublicKeyRequest, WalletAccountType } from '../../../constants/types'
 
 // Utils
 import { reduceAccountDisplayName } from '../../../utils/reduce-account-name'
@@ -40,7 +40,7 @@ export interface Props {
   selectedNetwork?: BraveWallet.NetworkInfo
   encryptionKeyPayload: SerializableGetEncryptionPublicKeyRequest
   eTldPlusOne: string
-  decryptPayload: SerializableDecryptRequest
+  decryptPayload: BraveWallet.DecryptRequest
   onProvideOrAllow: () => void
   onCancel: () => void
 }

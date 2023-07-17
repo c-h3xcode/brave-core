@@ -70,7 +70,7 @@ class LearningService : public EligibilityObserver {
   std::unique_ptr<const net::BackoffEntry::Policy> post_results_policy_;
   std::unique_ptr<net::BackoffEntry> post_results_backoff_entry_;
 
-  std::shared_ptr<api::config::ModelSpec> model_spec_;
+  std::unique_ptr<api::config::ModelSpec> model_spec_;
 
   base::ScopedObservation<EligibilityService, EligibilityObserver>
       eligibility_observation_{this};

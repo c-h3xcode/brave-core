@@ -168,16 +168,12 @@ class BraveWalletService : public KeyedService,
       const std::string& chain_id,
       SetNetworkForSelectedAccountOnActiveOriginCallback callback) override;
   void AddPermission(mojom::AccountIdPtr account_id,
-                     const url::Origin& origin,
                      AddPermissionCallback callback) override;
-  void HasPermission(mojom::AccountIdPtr account_id,
-                     const url::Origin& origin,
+  void HasPermission(std::vector<mojom::AccountIdPtr> accounts,
                      HasPermissionCallback callback) override;
   void ResetPermission(mojom::AccountIdPtr account_id,
-                       const url::Origin& origin,
                        ResetPermissionCallback callback) override;
   void IsPermissionDenied(mojom::CoinType coin,
-                          const url::Origin& origin,
                           IsPermissionDeniedCallback callback) override;
   void GetWebSitesWithPermission(
       mojom::CoinType coin,
@@ -186,9 +182,7 @@ class BraveWalletService : public KeyedService,
                               const std::string& formed_website,
                               ResetWebSitePermissionCallback callback) override;
   void GetActiveOrigin(GetActiveOriginCallback callback) override;
-  mojom::OriginInfoPtr GetActiveOriginSync();
-  void GeteTLDPlusOneFromOrigin(const url::Origin& origin,
-                                GetActiveOriginCallback callback) override;
+  mojom::OriginInfoShortPtr GetActiveOriginSync();
   void GetPendingSignMessageRequests(
       GetPendingSignMessageRequestsCallback callback) override;
   void GetPendingSignTransactionRequests(
@@ -247,7 +241,8 @@ class BraveWalletService : public KeyedService,
                              GetSimpleHashSpamNFTsCallback callback) override;
 
   // BraveWalletServiceDelegate::Observer:
-  void OnActiveOriginChanged(const mojom::OriginInfoPtr& origin_info) override;
+  void OnActiveOriginChanged(
+      const mojom::OriginInfoShortPtr& origin_info) override;
 
   void OnDiscoverAssetsStarted();
 

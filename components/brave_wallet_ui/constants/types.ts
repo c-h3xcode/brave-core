@@ -291,7 +291,7 @@ export interface PanelState {
   panelTitle: string
   connectingAccounts: string[]
   addChainRequest: BraveWallet.AddChainRequest
-  signMessageData: SerializableSignMessageRequest[]
+  signMessageData: BraveWallet.SignMessageRequest[]
   signTransactionRequests: BraveWallet.SignTransactionRequest[]
   signAllTransactionsRequests: BraveWallet.SignAllTransactionsRequest[]
   getEncryptionPublicKeyRequest: BraveWallet.GetEncryptionPublicKeyRequest
@@ -534,14 +534,6 @@ export type SerializableOriginInfo = Omit<
   origin: SerializableOrigin
 }
 
-export type ObjWithOriginInfo<T = {}> = T & {
-  originInfo: BraveWallet.OriginInfo
-}
-
-export type WithSerializableOriginInfo<T extends ObjWithOriginInfo = ObjWithOriginInfo> = Omit<T, 'originInfo'> & {
-  originInfo: SerializableOriginInfo
-}
-
 export type SerializableTxDataUnion = {
   solanaTxData?: SerializableSolanaTxData
   ethTxData?: BraveWallet.TxData
@@ -574,8 +566,6 @@ export type TransactionInfo =
 export type SerializableAddSuggestTokenRequest = Omit<BraveWallet.AddSuggestTokenRequest, 'origin'> & {
   origin: SerializableOriginInfo
 }
-
-export type SerializableSignMessageRequest = WithSerializableOriginInfo<BraveWallet.SignMessageRequest>
 
 export type GetEthAddrReturnInfo = BraveWallet.JsonRpcService_EnsGetEthAddr_ResponseParams
 export type GetSolAddrReturnInfo = BraveWallet.JsonRpcService_SnsGetSolAddr_ResponseParams

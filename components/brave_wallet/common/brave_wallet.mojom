@@ -1630,7 +1630,7 @@ enum ExternalWalletType {
 };
 
 struct AddSuggestTokenRequest {
-  OriginInfo origin;
+  OriginInfoShort origin;
   BlockchainToken token;
 };
 

@@ -87,7 +87,8 @@ const defaultState: PanelState = {
     unsafeMessage: ''
   },
   switchChainRequest: {
-    originInfo: defaultOriginInfo,
+    requestId: '',
+    originInfo: defaultOriginInfoShort,
     chainId: ''
   },
   hardwareWalletCode: undefined,

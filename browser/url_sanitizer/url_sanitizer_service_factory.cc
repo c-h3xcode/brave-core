@@ -34,6 +34,8 @@ URLSanitizerService* URLSanitizerServiceFactory::GetForBrowserContext(
 // static
 mojo::PendingRemote<url_sanitizer::mojom::UrlSanitizerService>
 URLSanitizerServiceFactory::GetForContext(content::BrowserContext* context) {
+    LOG(ERROR) << "SUJIT" << "SujitSujit GetForContext..";
+
   return static_cast<URLSanitizerService*>(
              GetInstance()->GetServiceForBrowserContext(context, true))
       ->MakeRemote();
@@ -48,9 +50,13 @@ URLSanitizerServiceFactory::~URLSanitizerServiceFactory() = default;
 
 KeyedService* URLSanitizerServiceFactory::BuildServiceInstanceFor(
     content::BrowserContext* context) const {
+    LOG(ERROR) << "SUJIT" << "SujitSujit BuildServiceInstanceFor..";
+
   auto* service = new URLSanitizerService();
   if (g_brave_browser_process &&
       g_brave_browser_process->URLSanitizerComponentInstaller()) {
+    LOG(ERROR) << "SUJIT" << "SujitSujit BuildServiceInstanceFor..AddObserver";
+    
     g_brave_browser_process->URLSanitizerComponentInstaller()->AddObserver(
         service);
   }

@@ -23,6 +23,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import org.chromium.chrome.browser.shields.UrlSanitizerServiceFactory;
+import org.chromium.url_sanitizer.mojom.UrlSanitizerService;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -1082,6 +1084,13 @@ public abstract class BraveActivity extends ChromeActivity
                 && UrlUtilities.isNTPUrl(getActivityTab().getUrl().getSpec())) {
             showSearchBoxTooltip();
         }
+
+        UrlSanitizerService s2 =
+                UrlSanitizerServiceFactory.getInstance().getUrlSanitizerAndroidService(this);
+        s2.sanitizeUrl("https://brave.com/?utm_source=foo",
+                result -> { Log.e("SujitSujit", "result " + result); });
+
+        Log.e("SujitSujit", "--------------- ");
     }
 
     private void handleDeepLinkVpn() {

@@ -138,8 +138,10 @@ void URLSanitizerService::UpdateMatchers(
 }
 
 GURL URLSanitizerService::SanitizeURL(const GURL& initial_url) {
+  if (matchers_.empty())
+    LOG(ERROR) << "SUJIT" << "SujitSujit empty..";
   if (matchers_.empty() || !initial_url.SchemeIsHTTPOrHTTPS()) {
-    VLOG(1) << "SujitSujit initial_url";
+    LOG(ERROR) << "SUJIT" << "SujitSujit initial_url";
     return initial_url;
   }
   GURL url = initial_url;
@@ -155,12 +157,13 @@ GURL URLSanitizerService::SanitizeURL(const GURL& initial_url) {
     }
     url = url.ReplaceComponents(replacements);
   }
-  VLOG(1) << "SujitSujit initial_url.......";
+  LOG(ERROR) << "SUJIT" << "SujitSujit initial_url.......";
 
   return url;
 }
 
 void URLSanitizerService::OnRulesReady(const std::string& json_content) {
+    LOG(ERROR) << "SUJIT" << "SujitSujit OnRulesReady..";
   Initialize(json_content);
 }
 

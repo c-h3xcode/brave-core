@@ -2481,9 +2481,9 @@ To change this setting, <ph name="BEGIN_LINK">&lt;resetlink&gt;</ph>reset sync<p
       <message name="IDS_CONTEXTMENU_COPY_LINK_ADDRESS" desc="Context sensitive menu item for copying the selected link URL / address. [CHAR_LIMIT=30]">
         Copy link address
       </message>
-      <message name="IDS_CONTEXTMENU_COPY_CLEAN_LINK" desc="Context sensitive menu item for copying the selected link URL / address. [CHAR_LIMIT=30]">
+      <!-- <message name="IDS_CONTEXTMENU_COPY_CLEAN_LINK" desc="Context sensitive menu item for copying the selected link URL / address. [CHAR_LIMIT=30]">
         Copy clean link
-      </message>
+      </message> -->
       <message name="IDS_CONTEXTMENU_COPY_LINK_TEXT" desc="Context sensitive menu item for copying the selected link's text. [CHAR_LIMIT=30]">
         Copy link text
       </message>

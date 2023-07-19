@@ -76,7 +76,7 @@ const onClickAddAccount = () => {
   )
 }
 interface Props {
-  originInfo: BraveWallet.OriginInfoShort
+  originInfo: BraveWallet.OriginInfo
   accountsToConnect: WalletAccountType[]
 }
 

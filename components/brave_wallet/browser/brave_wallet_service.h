@@ -182,7 +182,7 @@ class BraveWalletService : public KeyedService,
                               const std::string& formed_website,
                               ResetWebSitePermissionCallback callback) override;
   void GetActiveOrigin(GetActiveOriginCallback callback) override;
-  mojom::OriginInfoShortPtr GetActiveOriginSync();
+  mojom::OriginInfoPtr GetActiveOriginSync();
   void GetPendingSignMessageRequests(
       GetPendingSignMessageRequestsCallback callback) override;
   void GetPendingSignTransactionRequests(
@@ -241,8 +241,7 @@ class BraveWalletService : public KeyedService,
                              GetSimpleHashSpamNFTsCallback callback) override;
 
   // BraveWalletServiceDelegate::Observer:
-  void OnActiveOriginChanged(
-      const mojom::OriginInfoShortPtr& origin_info) override;
+  void OnActiveOriginChanged(const mojom::OriginInfoPtr& origin_info) override;
 
   void OnDiscoverAssetsStarted();
 

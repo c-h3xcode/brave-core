@@ -1073,31 +1073,31 @@ struct NetworkInfo {
   bool is_eip1559; // only for ETH.
 };
 
-struct OriginInfoShort {
+struct OriginInfo {
   string origin_spec;
   string e_tld_plus_one;
 };
 
 struct AddChainRequest {
-  OriginInfoShort origin_info;
+  OriginInfo origin_info;
   NetworkInfo network_info;
 };
 
 struct SwitchChainRequest {
   string request_id;
-  OriginInfoShort origin_info;
+  OriginInfo origin_info;
   string chain_id;
 };
 
 struct GetEncryptionPublicKeyRequest {
   string request_id;
-  OriginInfoShort origin_info;
+  OriginInfo origin_info;
   string address;
 };
 
 struct DecryptRequest {
   string request_id;
-  OriginInfoShort origin_info;
+  OriginInfo origin_info;
   string address;
   string unsafe_message;
 };
@@ -1382,7 +1382,7 @@ struct TransactionInfo {
   mojo_base.mojom.TimeDelta created_time;
   mojo_base.mojom.TimeDelta submitted_time;
   mojo_base.mojom.TimeDelta confirmed_time;
-  OriginInfoShort? origin_info;
+  OriginInfo? origin_info;
   string? group_id;
   string chain_id;
   // Currently only available for ETH and FIL
@@ -1547,7 +1547,7 @@ interface FilTxManagerProxy {
 
 interface BraveWalletServiceObserver {
   // Fired when the active origin is changed along with its eTLD+1
-  OnActiveOriginChanged(OriginInfoShort origin_info);
+  OnActiveOriginChanged(OriginInfo origin_info);
 
   // Fired when the default Ethereum wallet setting changes
   OnDefaultEthereumWalletChanged(DefaultWallet wallet);
@@ -1580,7 +1580,7 @@ interface BraveWalletServiceTokenObserver {
 };
 
 struct SignMessageRequest {
-  OriginInfoShort origin_info;
+  OriginInfo origin_info;
   int32 id;
   string address;
   string domain;
@@ -1599,7 +1599,7 @@ struct SignMessageRequest {
 };
 
 struct SignTransactionRequest {
-  OriginInfoShort origin_info;
+  OriginInfo origin_info;
   int32 id;
   string from_address;
   TxDataUnion tx_data;
@@ -1609,7 +1609,7 @@ struct SignTransactionRequest {
 };
 
 struct SignAllTransactionsRequest {
-  OriginInfoShort origin_info;
+  OriginInfo origin_info;
   int32 id;
   string from_address;
   array<TxDataUnion> tx_datas;
@@ -1624,7 +1624,7 @@ enum ExternalWalletType {
 };
 
 struct AddSuggestTokenRequest {
-  OriginInfoShort origin;
+  OriginInfo origin;
   BlockchainToken token;
 };
 
@@ -1723,7 +1723,7 @@ interface BraveWalletService {
   IsPermissionDenied(CoinType coin) => (bool denied);
 
   // Obtains the active origin info.
-  GetActiveOrigin() => (OriginInfoShort origin_info);
+  GetActiveOrigin() => (OriginInfo origin_info);
 
   // Gets all websites with a permission of coin
   GetWebSitesWithPermission(CoinType coin) => (array<string> web_sites);

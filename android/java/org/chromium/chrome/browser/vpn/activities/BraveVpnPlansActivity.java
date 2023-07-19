@@ -164,7 +164,7 @@ public class BraveVpnPlansActivity extends BraveVpnParentActivity {
 
     @Override
     protected void triggerLayoutInflation() {
-        mFirstRunFlowSequencer = new BraveFirstRunFlowSequencer(this) {
+        mFirstRunFlowSequencer = new BraveFirstRunFlowSequencer(this, getProfileSupplier()) {
             @Override
             public void onFlowIsKnown(Bundle freProperties) {
                 initializeViews();

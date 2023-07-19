@@ -867,8 +867,7 @@ export function refreshSitePermissions () {
     const { accountsWithPermission } =
       await braveWalletService.hasPermission(accounts.map((acc) => acc.accountId))
 
-    const result: WalletAccountType[] = accounts.filter(acc => accountsWithPermission.includes(acc.accountId))
-    dispatch(WalletActions.setSitePermissions({ accounts: result }))
+    dispatch(WalletActions.setSitePermissions({ accounts: accountsWithPermission }))
   }
 }
 

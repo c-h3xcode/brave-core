@@ -48,7 +48,6 @@
 #include "components/grit/brave_components_strings.h"
 #include "components/prefs/pref_service.h"
 #include "components/prefs/scoped_user_pref_update.h"
-#include "crypto/random.h"
 #include "net/base/net_errors.h"
 #include "services/network/public/cpp/shared_url_loader_factory.h"
 #include "third_party/re2/src/re2/re2.h"
@@ -239,12 +238,6 @@ T* GetCustomEVMNetworkFromPrefsDict(const std::string& chain_id,
   }
 
   return nullptr;
-}
-
-std::string GenerateRandomId() {
-  std::vector<uint8_t> bytes(32);
-  crypto::RandBytes(bytes);
-  return base::HexEncode(bytes);
 }
 
 namespace solana {
@@ -2669,6 +2662,7 @@ void JsonRpcService::OnGetEthNftStandard(
   GetEthNftStandard(contract_address, chain_id, interfaces, std::move(callback),
                     index);
 }
+
 void JsonRpcService::GetPendingSwitchChainRequests(
     GetPendingSwitchChainRequestsCallback callback) {
   std::move(callback).Run(GetPendingSwitchChainRequestsSync());
@@ -2752,7 +2746,7 @@ bool JsonRpcService::AddSwitchEthereumChainRequest(const std::string& chain_id,
     return false;
   }
 
-  auto request_id = GenerateRandomId();
+  auto request_id = GenerateRandomHexString();
   auto& pending_request = pending_switch_chain_requests_[request_id];
   pending_request.switch_chain_request = mojom::SwitchChainRequest::New(
       request_id, MakeOriginInfo(origin), chain_id);
@@ -2854,18 +2848,20 @@ void JsonRpcService::Reset() {
   ClearJsonRpcServiceProfilePrefs(prefs_);
 
   add_chain_pending_requests_.clear();
+
+  base::Value formed_response = GetProviderErrorDictionary(
+      mojom::ProviderError::kUserRejectedRequest,
+      l10n_util::GetStringUTF8(IDS_WALLET_USER_REJECTED_REQUEST));
+
   // Reject pending suggest token requests when network changed.
-  for (auto& [_, pending_request] : pending_switch_chain_requests_) {
-    base::Value formed_response = GetProviderErrorDictionary(
-        mojom::ProviderError::kUserRejectedRequest,
-        l10n_util::GetStringUTF8(IDS_WALLET_USER_REJECTED_REQUEST));
+  for (auto& pending_request : pending_switch_chain_requests_) {
     bool reject = true;
 
-    auto callback = std::move(pending_request.switch_chain_callback);
-    base::Value id = std::move(pending_request.switch_chain_id);
+    auto callback = std::move(pending_request.second.switch_chain_callback);
+    base::Value id = std::move(pending_request.second.switch_chain_id);
 
-    std::move(callback).Run(std::move(id), std::move(formed_response), reject,
-                            "", false);
+    std::move(callback).Run(std::move(id), formed_response.Clone(), reject, "",
+                            false);
   }
   pending_switch_chain_requests_.clear();
 }

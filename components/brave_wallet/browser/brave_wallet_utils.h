@@ -192,6 +192,9 @@ std::string eTLDPlusOne(const url::Origin& origin);
 
 mojom::OriginInfoPtr MakeOriginInfo(const url::Origin& origin);
 
+// Hex string of random 32 bytes.
+std::string GenerateRandomHexString();
+
 bool IsFilecoinKeyringId(mojom::KeyringId keyring_id);
 
 bool IsBitcoinKeyring(mojom::KeyringId keyring_id);

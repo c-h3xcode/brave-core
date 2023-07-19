@@ -256,7 +256,7 @@ export interface WalletState {
   solFeeEstimates?: SolFeeEstimates
   hasFeeEstimatesError?: boolean
   gasEstimates?: BraveWallet.GasEstimation1559
-  connectedAccounts: WalletAccountType[]
+  connectedAccounts: BraveWallet.AccountId[]
   isMetaMaskInstalled: boolean
   defaultCurrencies: DefaultCurrencies
   isLoadingCoinMarketData: boolean
@@ -487,10 +487,6 @@ export interface SendETHFilForwardTransactionParams extends BaseTransactionParam
  */
 export type SerializableTimeDelta = Record<keyof TimeDelta, number>
 
-/**
- * Used to properly store `UnguessableToken`s in redux store,
- * since bigints are not serializable by default
- */
 export type Defined<T> = Exclude<T, undefined>
 
 export type SerializableSolanaTxDataMaxRetries = {

@@ -124,7 +124,7 @@ export function RegisterPolymerComponentProperties(propertiesMap) {
 }
 
 export function RegisterPolymerPrototypeModification(modifications: { [element: string]: (prototype: any) => void }) {
-  for (const [element, modifier] of modifications) {
+  for (const [element, modifier] of Object.entries(modifications)) {
     const existing = prototypeModifications[element]
     prototypeModifications[element] = existing ? ((prototype) => {
       existing(prototype)

@@ -86,6 +86,12 @@
   </translations>
   <release seq="1">
     <messages fallback_to_english="true">
+      <message name="IDS_CLOSE_ALL_TABS_DIALOG_MESSAGE" desc="When users click the menu item 'Close all tabs' in tab switcher, a dialog will pop up and this text is the message of the dialog. If there are any Private tabs opened, this message would also warn users that those Private tabs would be lost.">
+      {INCOGNITO_TABS_COUNT, plural,
+        =0 {You can find your closed tabs in Recent tabs under the Brave main menu.}
+        =1 {You can find your closed tabs in Recent tabs under the Brave main menu. Your Private tab won't be available.}
+        other {You can find your closed tabs in Recent tabs under the Brave main menu. Your # Private tabs won't be available.}}
+      </message>
       <message name="IDS_CLOSE_ALL_TABS_DIALOG_TITLE_INCOGNITO" desc="When users click the menu item 'Close all tabs' in Private tab switcher, a dialog will pop up and this text is the title of the dialog.">
         Close all Private tabs?
       </message>

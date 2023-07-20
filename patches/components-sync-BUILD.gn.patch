@@ -1,8 +1,8 @@
 diff --git a/components/sync/BUILD.gn b/components/sync/BUILD.gn
-index f11539877c432ec62736519704e71e81a5ce7562..4909a81874006930a2ba8fa3165af5ed3fcef77e 100644
+index 871b295f96c60e8b4baee3c832d6d1bc33c544de..7c809e269866c74dafaf41ca18aaf7e5471f6064 100644
 --- a/components/sync/BUILD.gn
 +++ b/components/sync/BUILD.gn
-@@ -19,6 +19,7 @@ group("sync") {
+@@ -16,6 +16,7 @@ group("sync") {
    if (is_chromeos) {
      public_deps += [ "//components/sync/chromeos" ]
    }

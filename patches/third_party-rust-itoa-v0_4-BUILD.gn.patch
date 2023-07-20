@@ -1,8 +1,8 @@
 diff --git a/third_party/rust/itoa/v0_4/BUILD.gn b/third_party/rust/itoa/v0_4/BUILD.gn
-index c1cb11bc32529df38b8579ceb92d47283cd5f87e..6c1752f9889d3d1c5523446718618bd9b0ae9dce 100644
+index 107df32def38014b6333eac1785f52d672a77fae..460fca3c213e0e9fc2ca5b30416f46736be41b42 100644
 --- a/third_party/rust/itoa/v0_4/BUILD.gn
 +++ b/third_party/rust/itoa/v0_4/BUILD.gn
-@@ -27,4 +27,5 @@ cargo_crate("lib") {
+@@ -33,4 +33,5 @@ cargo_crate("lib") {
    library_configs += [ "//build/config/compiler:no_chromium_code" ]
    executable_configs -= [ "//build/config/compiler:chromium_code" ]
    executable_configs += [ "//build/config/compiler:no_chromium_code" ]

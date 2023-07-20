@@ -1,8 +1,8 @@
 diff --git a/components/sync/protocol/proto_visitors.h b/components/sync/protocol/proto_visitors.h
-index 60553dcf9308c1ffa178e4ce47f3dfd041a5b649..03e09fcefcdb767175ba1c9cbf2f2dceecdeb00e 100644
+index 8feeb5a4a14535533067f28f1eb6a0fe37d08e14..520c85fa88e424682744923ca4d1c08df93a0d45 100644
 --- a/components/sync/protocol/proto_visitors.h
 +++ b/components/sync/protocol/proto_visitors.h
-@@ -494,6 +494,7 @@ VISIT_PROTO_FIELDS(const sync_pb::DeviceInfoSpecifics& proto) {
+@@ -507,6 +507,7 @@ VISIT_PROTO_FIELDS(const sync_pb::DeviceInfoSpecifics& proto) {
    VISIT(manufacturer);
    VISIT(last_updated_timestamp);
    VISIT(feature_fields);
@@ -10,7 +10,7 @@ index 60553dcf9308c1ffa178e4ce47f3dfd041a5b649..03e09fcefcdb767175ba1c9cbf2f2dce
    VISIT(sharing_fields);
    VISIT(invalidation_fields);
    VISIT(paask_fields);
-@@ -508,6 +509,7 @@ VISIT_PROTO_FIELDS(const sync_pb::FeatureSpecificFields& proto) {
+@@ -521,6 +522,7 @@ VISIT_PROTO_FIELDS(const sync_pb::FeatureSpecificFields& proto) {
    VISIT(send_tab_to_self_receiving_enabled);
  }
  

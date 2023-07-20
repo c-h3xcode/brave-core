@@ -1,5 +1,5 @@
 diff --git a/tools/licenses/licenses.py b/tools/licenses/licenses.py
-index dfb1bda193c8fae8aa21ef80a567628937365b9e..2587d597b5efd7980f8f4e6fc3b5d2952c4e3fdf 100755
+index c728df1b5421b749af10a076fdbd8ffe691114b9..99b61d6ff6a9afb205486db45f5483ca0ac8177b 100755
 --- a/tools/licenses/licenses.py
 +++ b/tools/licenses/licenses.py
 @@ -39,6 +39,7 @@ _REPOSITORY_ROOT = os.path.abspath(
@@ -28,7 +28,7 @@ index dfb1bda193c8fae8aa21ef80a567628937365b9e..2587d597b5efd7980f8f4e6fc3b5d295
        # Add all subdirectories that are not marked for skipping.
        for dir in dirs:
          dirpath = os.path.join(path, dir)
-@@ -927,7 +930,8 @@ def GenerateCredits(file_template_file,
+@@ -941,7 +944,8 @@ def GenerateCredits(file_template_file,
        metadata = ParseDir(path,
                            _REPOSITORY_ROOT,
                            enable_warnings=enable_warnings)

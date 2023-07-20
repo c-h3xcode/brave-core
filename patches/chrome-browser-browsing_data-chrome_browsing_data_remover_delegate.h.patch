@@ -1,8 +1,8 @@
 diff --git a/chrome/browser/browsing_data/chrome_browsing_data_remover_delegate.h b/chrome/browser/browsing_data/chrome_browsing_data_remover_delegate.h
-index d2a62ef6ea76f1ada7b619bd2a18c5d004b81fe4..6fd1361174a5aab96fae5cf4f13a407b6e156851 100644
+index 06764c6fed7e05c90356457da45a89a743a1c63d..ec00726743a20bad01a42a744936e1bc28db54c2 100644
 --- a/chrome/browser/browsing_data/chrome_browsing_data_remover_delegate.h
 +++ b/chrome/browser/browsing_data/chrome_browsing_data_remover_delegate.h
-@@ -93,6 +93,7 @@ class ChromeBrowsingDataRemoverDelegate
+@@ -95,6 +95,7 @@ class ChromeBrowsingDataRemoverDelegate
    void OverrideDomainReliabilityClearerForTesting(
        DomainReliabilityClearer clearer);
  
@@ -10,7 +10,7 @@ index d2a62ef6ea76f1ada7b619bd2a18c5d004b81fe4..6fd1361174a5aab96fae5cf4f13a407b
   private:
    using WebRtcEventLogManager = webrtc_event_logging::WebRtcEventLogManager;
  
-@@ -147,11 +148,12 @@ class ChromeBrowsingDataRemoverDelegate
+@@ -149,11 +150,12 @@ class ChromeBrowsingDataRemoverDelegate
      kWebAuthnCredentials = 43,
      kWebrtcVideoPerfHistory = 44,
      kMediaDeviceSalts = 45,

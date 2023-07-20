@@ -3,7 +3,7 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this file,
 // You can obtain one at https://mozilla.org/MPL/2.0/.
 
-import { RegisterPolymerComponentProperties,RegisterPolymerPrototypeModification } from 'chrome://resources/brave/polymer_overriding.js'
+import { RegisterPolymerComponentProperties } from 'chrome://resources/brave/polymer_overriding.js'
 // const iconMap = {
 //   'settings:location-on': 'location-on', // location
 //   'cr:videocam': 'video-camera', // camera
@@ -50,15 +50,15 @@ RegisterPolymerComponentProperties({
   }
 })
 
-RegisterPolymerPrototypeModification({
-  'iron-icon': (prototype) => {
-    const _updateIcon = prototype._updateIcon
-    prototype._updateIcon = function(...args) {
-      console.log("Prototyped updateIcon", ...args)
-      _updateIcon.apply(this, ...args)
-    }
-  }
-})
+// RegisterPolymerPrototypeModification({
+//   'iron-icon': (prototype) => {
+//     const _updateIcon = prototype._updateIcon
+//     prototype._updateIcon = function(...args) {
+//       console.log("Prototyped updateIcon", ...args)
+//       _updateIcon.apply(this, ...args)
+//     }
+//   }
+// })
 
 // RegisterPolymerTemplateModifications({
 //   'iron-icon': (templateContent) => {

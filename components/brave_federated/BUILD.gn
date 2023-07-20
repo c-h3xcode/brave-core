@@ -38,6 +38,8 @@ static_library("brave_federated") {
   ]
 
   deps = [
+    "//ui/base",
+    "//brave/components/brave_federated/api:api",
     "//brave/components/brave_federated/resources",
     "//brave/components/brave_federated/resources:brave_federated_resources",
     "//brave/components/brave_stats/browser",
@@ -68,6 +70,8 @@ source_set("brave_federated_tests") {
   ]
 
   deps = [
+    "//brave/third_party/flower",
+    "//brave/components/brave_federated/api",
     "//base/test:test_support",
     "//brave/components/brave_federated:brave_federated",
     "//content/test:test_support",

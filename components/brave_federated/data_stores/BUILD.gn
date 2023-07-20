@@ -15,7 +15,9 @@ static_library("data_stores") {
   ]
 
   deps = [
+    "//base",
     "//sql",
     "//third_party/abseil-cpp:absl",
+    "//brave/components/brave_federated/public/interfaces"
   ]
 }

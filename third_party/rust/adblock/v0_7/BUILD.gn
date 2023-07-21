@@ -9,10 +9,63 @@ cargo_crate("lib") {
   epoch = "0.7"
   crate_type = "rlib"
   crate_root = "crate/src/lib.rs"
+  sources = [
+    "//brave/third_party/rust/adblock/v0_7/crate/benches/bench_cosmetic_matching.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/benches/bench_matching.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/benches/bench_redirect_performance.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/benches/bench_regex.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/benches/bench_rules.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/benches/bench_url.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/examples/deserialization.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/examples/example.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/examples/generate-dat.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/examples/use-dat.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/fuzz/fuzz_targets/parse_filter.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/fuzz/fuzz_targets/parse_filter_hosts.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/fuzz/fuzz_targets/parse_request.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/js/src/lib.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/src/blocker.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/src/content_blocking.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/src/cosmetic_filter_cache.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/src/data_format/legacy.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/src/data_format/mod.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/src/data_format/utils.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/src/data_format/v0.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/src/engine.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/src/filters/cosmetic.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/src/filters/mod.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/src/filters/network.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/src/lib.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/src/lists.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/src/optimizer.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/src/regex_manager.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/src/request.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/src/resources/mod.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/src/resources/resource_assembler.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/src/resources/scriptlet_resource_storage.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/src/serialization.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/src/url_parser/mod.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/src/url_parser/parser.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/src/url_parser/parser_full.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/src/url_parser/parser_regex.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/src/utils.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/tests/deserialization.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/tests/legacy_harness.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/tests/live.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/tests/matching.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/tests/simple_use.rs",
+    "//brave/third_party/rust/adblock/v0_7/crate/tests/ublock-coverage.rs",
+  ]
+  inputs = [
+    "//brave/third_party/rust/adblock/v0_7/crate/.github/ISSUE_TEMPLATE/issue.md",
+    "//brave/third_party/rust/adblock/v0_7/crate/.github/ISSUE_TEMPLATE/issues.md",
+    "//brave/third_party/rust/adblock/v0_7/crate/README.md",
+    "//brave/third_party/rust/adblock/v0_7/crate/SECURITY.md",
+    "//brave/third_party/rust/adblock/v0_7/crate/fuzz/README.md",
+  ]
 
   # Unit tests skipped. Generate with --with-tests to include them.
   build_native_rust_unit_tests = false
-  sources = [ "crate/src/lib.rs" ]
   edition = "2018"
   cargo_pkg_version = "0.7.9"
   cargo_pkg_authors =

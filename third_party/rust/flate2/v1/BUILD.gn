@@ -9,10 +9,58 @@ cargo_crate("lib") {
   epoch = "1"
   crate_type = "rlib"
   crate_root = "crate/src/lib.rs"
+  sources = [
+    "//brave/third_party/rust/flate2/v1/crate/examples/compress_file.rs",
+    "//brave/third_party/rust/flate2/v1/crate/examples/deflatedecoder-bufread.rs",
+    "//brave/third_party/rust/flate2/v1/crate/examples/deflatedecoder-read.rs",
+    "//brave/third_party/rust/flate2/v1/crate/examples/deflatedecoder-write.rs",
+    "//brave/third_party/rust/flate2/v1/crate/examples/deflateencoder-bufread.rs",
+    "//brave/third_party/rust/flate2/v1/crate/examples/deflateencoder-read.rs",
+    "//brave/third_party/rust/flate2/v1/crate/examples/deflateencoder-write.rs",
+    "//brave/third_party/rust/flate2/v1/crate/examples/gzbuilder.rs",
+    "//brave/third_party/rust/flate2/v1/crate/examples/gzdecoder-bufread.rs",
+    "//brave/third_party/rust/flate2/v1/crate/examples/gzdecoder-read.rs",
+    "//brave/third_party/rust/flate2/v1/crate/examples/gzdecoder-write.rs",
+    "//brave/third_party/rust/flate2/v1/crate/examples/gzencoder-bufread.rs",
+    "//brave/third_party/rust/flate2/v1/crate/examples/gzencoder-read.rs",
+    "//brave/third_party/rust/flate2/v1/crate/examples/gzencoder-write.rs",
+    "//brave/third_party/rust/flate2/v1/crate/examples/gzmultidecoder-bufread.rs",
+    "//brave/third_party/rust/flate2/v1/crate/examples/gzmultidecoder-read.rs",
+    "//brave/third_party/rust/flate2/v1/crate/examples/zlibdecoder-bufread.rs",
+    "//brave/third_party/rust/flate2/v1/crate/examples/zlibdecoder-read.rs",
+    "//brave/third_party/rust/flate2/v1/crate/examples/zlibdecoder-write.rs",
+    "//brave/third_party/rust/flate2/v1/crate/examples/zlibencoder-bufread.rs",
+    "//brave/third_party/rust/flate2/v1/crate/examples/zlibencoder-read.rs",
+    "//brave/third_party/rust/flate2/v1/crate/examples/zlibencoder-write.rs",
+    "//brave/third_party/rust/flate2/v1/crate/src/bufreader.rs",
+    "//brave/third_party/rust/flate2/v1/crate/src/crc.rs",
+    "//brave/third_party/rust/flate2/v1/crate/src/deflate/bufread.rs",
+    "//brave/third_party/rust/flate2/v1/crate/src/deflate/mod.rs",
+    "//brave/third_party/rust/flate2/v1/crate/src/deflate/read.rs",
+    "//brave/third_party/rust/flate2/v1/crate/src/deflate/write.rs",
+    "//brave/third_party/rust/flate2/v1/crate/src/ffi/c.rs",
+    "//brave/third_party/rust/flate2/v1/crate/src/ffi/mod.rs",
+    "//brave/third_party/rust/flate2/v1/crate/src/ffi/rust.rs",
+    "//brave/third_party/rust/flate2/v1/crate/src/gz/bufread.rs",
+    "//brave/third_party/rust/flate2/v1/crate/src/gz/mod.rs",
+    "//brave/third_party/rust/flate2/v1/crate/src/gz/read.rs",
+    "//brave/third_party/rust/flate2/v1/crate/src/gz/write.rs",
+    "//brave/third_party/rust/flate2/v1/crate/src/lib.rs",
+    "//brave/third_party/rust/flate2/v1/crate/src/mem.rs",
+    "//brave/third_party/rust/flate2/v1/crate/src/zio.rs",
+    "//brave/third_party/rust/flate2/v1/crate/src/zlib/bufread.rs",
+    "//brave/third_party/rust/flate2/v1/crate/src/zlib/mod.rs",
+    "//brave/third_party/rust/flate2/v1/crate/src/zlib/read.rs",
+    "//brave/third_party/rust/flate2/v1/crate/src/zlib/write.rs",
+    "//brave/third_party/rust/flate2/v1/crate/tests/early-flush.rs",
+    "//brave/third_party/rust/flate2/v1/crate/tests/empty-read.rs",
+    "//brave/third_party/rust/flate2/v1/crate/tests/gunzip.rs",
+    "//brave/third_party/rust/flate2/v1/crate/tests/zero-write.rs",
+  ]
+  inputs = [ "//brave/third_party/rust/flate2/v1/crate/README.md" ]
 
   # Unit tests skipped. Generate with --with-tests to include them.
   build_native_rust_unit_tests = false
-  sources = [ "crate/src/lib.rs" ]
   edition = "2018"
   cargo_pkg_version = "1.0.25"
   cargo_pkg_authors = "Alex Crichton <alex@alexcrichton.com>, Josh Triplett <josh@joshtriplett.org>"

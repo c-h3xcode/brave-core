@@ -11,8 +11,11 @@ const leoIcons = (window as any)['icons'] as Set<string>
 // Maps Chromium icons to their equivalent Brave icons.
 const iconMap: { [key: string]: string } = {
   'settings:location-on': 'location-on', // location
+  'settings:location-off': 'location-off', // location off
   'cr:videocam': 'video-camera', // camera
+  'settings:videocam-off': 'video-camera-off', // camera off
   'cr:mic': 'microphone', // microphone
+  'settings:mic-off': 'microphone-off', // microphone off
   'settings:sensors': 'motion-sensor', // motion sensors
   'settings:notifications': 'notification', // notifications
   'settings:code': 'code', // javascript

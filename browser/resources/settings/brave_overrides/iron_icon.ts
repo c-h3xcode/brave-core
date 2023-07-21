@@ -7,6 +7,8 @@ import { RegisterPolymerComponentProperties, RegisterStyleOverride, RegisterPoly
 import {html} from 'chrome://resources/polymer/v3_0/polymer/polymer_bundled.min.js'
 
 const leoIcons = (window as any)['icons'] as Set<string>
+
+// Maps Chromium icons to their equivalent Brave icons.
 const iconMap: { [key: string]: string } = {
   'settings:location-on': 'location-on', // location
   'cr:videocam': 'video-camera', // camera
@@ -33,15 +35,7 @@ const iconMap: { [key: string]: string } = {
   'settings:federated-identity-api': '', // federated identity (unused)
   'settings:vr-headset': 'virtual-reality', // virtual reality & virtual reality
   'settings:window-management': 'windows-open', // window management
-  'settings:local-fonts': 'font-size',
-
-  // Leo Icons
-  'user': 'user',
-  'autoplay-on': 'autoplay-on',
-  'ethereum-on': 'ethereum-on',
-  'smartphone-desktop': 'smartphone-desktop', // localhost access
-  'solana-on': 'solana-on',
-  'smartphone-hand': 'smartphone-hand',
+  'settings:local-fonts': 'font-size', // fonts
 }
 
 RegisterStyleOverride('iron-icon', html`

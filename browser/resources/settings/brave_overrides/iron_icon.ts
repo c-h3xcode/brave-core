@@ -6,6 +6,7 @@
 import { RegisterPolymerComponentProperties, RegisterStyleOverride, RegisterPolymerPrototypeModification } from 'chrome://resources/brave/polymer_overriding.js'
 import {html} from 'chrome://resources/polymer/v3_0/polymer/polymer_bundled.min.js'
 
+const leoIcons = (window as any)['icons'] as Set<string>
 const iconMap: { [key: string]: string } = {
   'settings:location-on': 'location-on', // location
   'cr:videocam': 'video-camera', // camera
@@ -45,11 +46,6 @@ const iconMap: { [key: string]: string } = {
 
 RegisterStyleOverride('iron-icon', html`
   <style>
-    /* Handle Gradient Fill */
-    :host-context(.cr-nav-menu-item) svg {
-      fill: url(#selectedGradient);
-    }
-
     :host {
       --leo-icon-size: var(--iron-icon-width, 24px);
       --leo-icon-color: var(--iron-icon-fill-color, currentColor);
@@ -66,7 +62,7 @@ RegisterPolymerPrototypeModification({
       }
 
       const name = iconMap[this.icon];
-      if (name) {
+      if (name || leoIcons.has(this.icon)) {
         removeAllOfType('svg')
         this._svgIcon = null
 
@@ -75,7 +71,7 @@ RegisterPolymerPrototypeModification({
           leoIcon = document.createElement('leo-icon')
           this.shadowRoot.append(leoIcon)
         }
-        leoIcon.setAttribute('name', name)
+        leoIcon.setAttribute('name', name ?? this.icon)
       } else {
         removeAllOfType('leo-icon')
         _updateIcon.apply(this, ...args)

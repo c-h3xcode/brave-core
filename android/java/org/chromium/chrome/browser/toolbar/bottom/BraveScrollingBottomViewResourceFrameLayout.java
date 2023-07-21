@@ -108,6 +108,7 @@ public class BraveScrollingBottomViewResourceFrameLayout
                             && (mBottomToolbar.getVisibility()
                                     != (visible ? View.VISIBLE : View.GONE))) {
                         mBottomToolbar.setVisibility(visible ? View.VISIBLE : View.GONE);
+                        triggerBitmapCapture(!visible);
                     }
                 }));
         braveBottomControlsCoordinator().getTabGroupUiVisibleSupplier().addObserver(
@@ -117,6 +118,7 @@ public class BraveScrollingBottomViewResourceFrameLayout
                             && (mBottomContainerSlot.getVisibility()
                                     != (visible ? View.VISIBLE : View.GONE))) {
                         mBottomContainerSlot.setVisibility(visible ? View.VISIBLE : View.GONE);
+                        triggerBitmapCapture(!visible);
                     }
                 }));
     }
@@ -146,7 +148,14 @@ public class BraveScrollingBottomViewResourceFrameLayout
             // We need to explicitly trigger bitmap capture when dimensions are changed.
             getResourceAdapter().onLayoutChange(
                     v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom);
-            getResourceAdapter().triggerBitmapCapture();
+            triggerBitmapCapture(width < oldWidth || height < oldHeight);
         }
+    }
+
+    private void triggerBitmapCapture(boolean dropCachedBitmap) {
+        if (dropCachedBitmap) {
+            getResourceAdapter().dropCachedBitmap();
+        }
+        getResourceAdapter().triggerBitmapCapture();
     }
 }

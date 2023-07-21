@@ -217,13 +217,6 @@ RegisterStyleOverride(
   `
 )
 
-RegisterStyleOverride('iron-icon', html`
- <style>
-    :host-context(.cr-nav-menu-item) svg {
-      fill: url(#selectedGradient);
-    }
- </style>`)
-
 RegisterPolymerTemplateModifications({
   'settings-menu': (templateContent) => {
     // Add title

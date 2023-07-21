@@ -3,8 +3,10 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this file,
 // You can obtain one at https://mozilla.org/MPL/2.0/.
 
-import { RegisterPolymerComponentProperties, RegisterPolymerPrototypeModification } from 'chrome://resources/brave/polymer_overriding.js'
-const iconMap = {
+import { RegisterPolymerComponentProperties, RegisterStyleOverride, RegisterPolymerPrototypeModification } from 'chrome://resources/brave/polymer_overriding.js'
+import {html} from 'chrome://resources/polymer/v3_0/polymer/polymer_bundled.min.js'
+
+const iconMap: { [key: string]: string } = {
   'settings:location-on': 'location-on', // location
   'cr:videocam': 'video-camera', // camera
   'cr:mic': 'microphone', // microphone
@@ -40,6 +42,20 @@ const iconMap = {
   'solana-on': 'solana-on',
   'smartphone-hand': 'smartphone-hand',
 }
+
+RegisterStyleOverride('iron-icon', html`
+  <style>
+    /* Handle Gradient Fill */
+    :host-context(.cr-nav-menu-item) svg {
+      fill: url(#selectedGradient);
+    }
+
+    :host {
+      --leo-icon-size: var(--iron-icon-width, 24px);
+      --leo-icon-color: var(--iron-icon-fill-color, currentColor);
+    }
+  </style>
+`)
 
 RegisterPolymerPrototypeModification({
   'iron-icon': (prototype) => {

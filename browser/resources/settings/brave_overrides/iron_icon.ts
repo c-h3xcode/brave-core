@@ -17,14 +17,20 @@ const iconMap: { [key: string]: string } = {
   'cr:mic': 'microphone', // microphone
   'settings:mic-off': 'microphone-off', // microphone off
   'settings:sensors': 'motion-sensor', // motion sensors
+  // TODO: No leo icon for this yet
+  // 'settings:sensors-off': 'motion-sensor-off', // motion sensors
   'settings:notifications': 'notification', // notifications
+  'settings:notifications-off': 'notification-off', // notifications off
   'settings:code': 'code', // javascript
   'settings:photo': 'image', // images
   'cr:open-in-new': 'launch', // popups & redirects
   'settings:ads': '', // intrusive ads (unused)
   'cr:sync': 'sync', // background sync
   'settings:volume-up': 'volume-on', // sound
+  'settings:volume-up-off': 'volume-off', // sound off
   'cr:file-download': 'download', // automatic downloads
+  // TODO: No leo icon for this yet
+  // 'cr:file-download-off': 'download-off', // automatic downloads off
   'settings:midi': 'media-visualizer', // midi devices
   'settings:usb': 'usb', // usb devices
   'settings:serial-port': 'cpu-chip', // serial ports
@@ -39,6 +45,7 @@ const iconMap: { [key: string]: string } = {
   'settings:vr-headset': 'virtual-reality', // virtual reality & virtual reality
   'settings:window-management': 'windows-open', // window management
   'settings:local-fonts': 'font-size', // fonts
+  'settings:zoom-in': 'search-zoom-in', // zoom levels
 }
 
 RegisterStyleOverride('iron-icon', html`

@@ -1,8 +1,8 @@
 diff --git a/components/sync/service/BUILD.gn b/components/sync/service/BUILD.gn
-index 0fbf33de51893436331a9339982778a626709f54..1b46935333c7a0929cbfdce30b37644ba966b6ac 100644
+index f5575747398e3d67dac2f6f09fe54a5b08f8e3bb..8475a4e313d06969e8159e89002c4fb138cb77b5 100644
 --- a/components/sync/service/BUILD.gn
 +++ b/components/sync/service/BUILD.gn
-@@ -108,4 +108,5 @@ static_library("service") {
+@@ -113,4 +113,5 @@ static_library("service") {
    }
  
    configs += [ "//build/config/compiler:wexit_time_destructors" ]

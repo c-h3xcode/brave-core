@@ -1,8 +1,8 @@
 diff --git a/chrome/browser/ui/toolbar/recent_tabs_sub_menu_model.cc b/chrome/browser/ui/toolbar/recent_tabs_sub_menu_model.cc
-index 75fae6beb7f1be704ad7d892679fa662bd992cee..7822d2c013955719de0dba6dca894d487a262a22 100644
+index 9bbf28cbd711e1c738fc473cb878a440fa31b9d4..0b16f1c5adf3cb0a08c1103d03b16d7e90f2fa02 100644
 --- a/chrome/browser/ui/toolbar/recent_tabs_sub_menu_model.cc
 +++ b/chrome/browser/ui/toolbar/recent_tabs_sub_menu_model.cc
-@@ -467,6 +467,7 @@ void RecentTabsSubMenuModel::BuildTabsFromOtherDevices() {
+@@ -471,6 +471,7 @@ void RecentTabsSubMenuModel::BuildTabsFromOtherDevices() {
             ++k) {
          BuildOtherDevicesTabItem(this, session_tag, *tabs_in_session[k]);
        }  // for all tabs in one session

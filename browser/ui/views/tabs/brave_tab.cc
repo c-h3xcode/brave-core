@@ -226,9 +226,6 @@ void BraveTab::Layout() {
           close_button_->GetProperty(views::kInternalPaddingKey);
       DCHECK(current_padding);
 
-      // Use the same padding for all sides.
-      close_button_->SetButtonPadding(gfx::Insets(current_padding->left()));
-
       // In order to reset ink drop bounds based on new padding.
       auto* ink_drop = views::InkDrop::Get(close_button_)->GetInkDrop();
       DCHECK(ink_drop);
